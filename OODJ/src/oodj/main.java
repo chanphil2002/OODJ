@@ -8,7 +8,7 @@ package oodj;
  *
  * @author pc
  */
-public class OODJ {
+public class main {
 
     /**
      * @param args the command line arguments
