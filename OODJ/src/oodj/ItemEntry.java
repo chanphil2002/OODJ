@@ -4,10 +4,16 @@
  */
 package oodj;
 
+import java.io.*;
 /**
  *
  * @author pc
  */
 public class ItemEntry {
+    private String itemCode;
+    private String itemName;
+    private int itemQuantity;
+    private float price;
+    private Supplier supplierID;
     
 }

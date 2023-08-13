@@ -4,10 +4,17 @@
  */
 package oodj;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
 /**
  *
  * @author pc
  */
 public class SalesEntry {
-    
+    private LocalDate Date;
+    private ItemEntry itemCode;
+    private int quantitySold;
+    private int salesAmount;
 }

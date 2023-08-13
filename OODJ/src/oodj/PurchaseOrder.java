@@ -4,10 +4,15 @@
  */
 package oodj;
 
+import oodj.Users.*;
+import java.io.*;
 /**
  *
  * @author pc
  */
 public class PurchaseOrder {
+    private String POID;
+    private PurchaseRequisition PRID;
+    private PurchaseManager userID;
     
 }

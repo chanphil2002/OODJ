@@ -4,10 +4,13 @@
  */
 package oodj;
 
+import java.io.*;
+
 /**
  *
  * @author pc
  */
 public class Supplier {
-    
+    private String supplierID;
+    private String supplierName;
 }

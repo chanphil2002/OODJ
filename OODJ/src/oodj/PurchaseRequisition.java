@@ -4,10 +4,20 @@
  */
 package oodj;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
 /**
  *
  * @author pc
  */
 public class PurchaseRequisition {
+    private String PRID;
+    private List<ItemEntry> PRItemList;
+    private List<Integer> PRquantity;
+    private LocalDate PRDate;
+    private Supplier supplierID;
+    private boolean status;
     
 }
