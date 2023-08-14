@@ -9,5 +9,7 @@ package purchaserequisition;
  * @author pc
  */
 public class EditPurchaseRequisition {
-    
+    public void EditPurchaseRequisition(){
+        
+    }
 }

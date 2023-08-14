@@ -9,14 +9,17 @@ package main;
  * @author pc
  */
 
-import users.SalesManager;
+import users.*;
+import purchaserequisition.*;
 public class main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SalesManager.createItemEntry();
+        SalesManager sm = new SalesManager();
+        
+        sm.CreatePurchaseRequisition();
     }
     
 }

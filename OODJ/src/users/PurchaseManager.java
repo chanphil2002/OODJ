@@ -9,5 +9,4 @@ package users;
  * @author pc
  */
 public class PurchaseManager extends User{
-
 }

@@ -10,6 +10,7 @@ package users;
  */
 import itementry.Item;
 import supplierentry.Supplier;
+import purchaserequisition.*;
 import java.io.*;
 import java.util.Scanner;
 import java.io.FileOutputStream;
@@ -17,48 +18,73 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class SalesManager extends User implements Serializable{
-    public static void createItemEntry() {
-
-        System.out.println("Sales Manager: Create Item Entry");
-        
-        System.out.print("Item Code: ");
-        String itemCode = userScanner().nextLine();
-
-        System.out.print("Item Name: ");
-        String itemName = userScanner().nextLine();
-
-        System.out.print("Quantity: ");
-        int itemQuantity = userScanner().nextInt();
-        
-        System.out.print("Selling Price: ");
-        float price = userScanner().nextInt();
-        
-        System.out.print("Supplier ID: ");
-        String supplierID = userScanner().nextLine();
-        Supplier supplier = new Supplier(supplierID);
-
-        userScanner().close();
-
-        Item newItem = new Item();
-        newItem.setItemCode(itemCode);
-        newItem.setItemName(itemName);
-        newItem.setItemQuantity(itemQuantity);
-        newItem.setPrice(price);
-        newItem.setSupplierID(supplier);
-
-
-        // Serialize the Item Entry to a text file
-        try {
-            String filePath = "C:/Users/pc/OneDrive - Asia Pacific University/Degree/OODJ/Assignment/OODJ/resources/data/item_entry.ser";
-            FileOutputStream fileOut = new FileOutputStream(filePath);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(newItem);
-            out.close();
-            fileOut.close();
-            System.out.println("Item Entry serialized and saved as 'item_entry.ser'");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private CreatePurchaseRequisition CreatePurchaseRequisition;
+    private DeletePurchaseRequisition DeletePurchaseRequisition;
+    private EditPurchaseRequisition EditPurchaseRequisition;
+    private ViewPurchaseRequisition ViewPurchaseRequisition;
+    
+    public SalesManager(){
+        CreatePurchaseRequisition = new CreatePurchaseRequisition();
+        DeletePurchaseRequisition = new DeletePurchaseRequisition();
+        EditPurchaseRequisition = new EditPurchaseRequisition();
+        ViewPurchaseRequisition = new ViewPurchaseRequisition();
     }
-
+    
+    public void CreatePurchaseRequisition(){
+        CreatePurchaseRequisition.CreatePurchaseRequisition();
+    }
+    public void DeletePurchaseRequisition(){
+        DeletePurchaseRequisition.DeletePurchaseRequisition();
+    }
+    public void EditPurchaseRequisition(){
+        EditPurchaseRequisition.EditPurchaseRequisition();
+    }
+    public void ViewPurchaseRequisition(){
+        ViewPurchaseRequisition.ViewPurchaseRequisition();
+    }
+    
+    
+//    public static void createItemEntry() {
+//
+//        System.out.println("Sales Manager: Create Item Entry");
+//        
+//        System.out.print("Item Code: ");
+//        String itemCode = userScanner().nextLine();
+//
+//        System.out.print("Item Name: ");
+//        String itemName = userScanner().nextLine();
+//
+//        System.out.print("Quantity: ");
+//        int itemQuantity = userScanner().nextInt();
+//        
+//        System.out.print("Selling Price: ");
+//        float price = userScanner().nextInt();
+//        
+//        System.out.print("Supplier ID: ");
+//        String supplierID = userScanner().nextLine();
+//        Supplier supplier = new Supplier(supplierID);
+//
+//        userScanner().close();
+//
+//        Item newItem = new Item();
+//        newItem.setItemCode(itemCode);
+//        newItem.setItemName(itemName);
+//        newItem.setItemQuantity(itemQuantity);
+//        newItem.setPrice(price);
+//        newItem.setSupplierID(supplier);
+//
+//
+//        // Serialize the Item Entry to a text file
+//        try {
+//            String filePath = "C:/Users/pc/OneDrive - Asia Pacific University/Degree/OODJ/Assignment/OODJ/resources/data/item_entry.ser";
+//            FileOutputStream fileOut = new FileOutputStream(filePath);
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(newItem);
+//            out.close();
+//            fileOut.close();
+//            System.out.println("Item Entry serialized and saved as 'item_entry.ser'");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

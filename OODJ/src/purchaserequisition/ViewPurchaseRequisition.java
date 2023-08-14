@@ -9,5 +9,7 @@ package purchaserequisition;
  * @author pc
  */
 public class ViewPurchaseRequisition {
-    
+    public void ViewPurchaseRequisition(){
+        
+    }
 }

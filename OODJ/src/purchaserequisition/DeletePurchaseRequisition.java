@@ -9,5 +9,7 @@ package purchaserequisition;
  * @author pc
  */
 public class DeletePurchaseRequisition {
-    
+    public void DeletePurchaseRequisition(){
+        
+    }
 }

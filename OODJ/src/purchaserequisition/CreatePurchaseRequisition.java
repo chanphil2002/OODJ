@@ -9,5 +9,7 @@ package purchaserequisition;
  * @author pc
  */
 public class CreatePurchaseRequisition {
-    
+    public void CreatePurchaseRequisition(){
+        System.out.println("hello");
+    }
 }
