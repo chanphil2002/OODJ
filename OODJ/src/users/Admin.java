@@ -10,8 +10,7 @@ package users;
  */
 public class Admin extends User{
     
-    public Admin(String userID, String password, String role) {
-        super(userID, password, role);
+    public Admin() {
         //TODO Auto-generated constructor stub
     }
 

@@ -20,8 +20,7 @@ public class SalesManager extends User implements Serializable{
     private EditPurchaseRequisition EditPurchaseRequisition;
     private ViewPurchaseRequisition ViewPurchaseRequisition;
     
-    public SalesManager(String userID, String password, String role){
-        super(userID, password, role);
+    public SalesManager(){
         CreatePurchaseRequisition = new CreatePurchaseRequisition();
         DeletePurchaseRequisition = new DeletePurchaseRequisition();
         EditPurchaseRequisition = new EditPurchaseRequisition();

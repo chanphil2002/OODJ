@@ -10,8 +10,7 @@ package users;
  */
 public class PurchaseManager extends User{
 
-    public PurchaseManager(String userID, String password, String role) {
-        super(userID, password, role);
+    public PurchaseManager() {
         //TODO Auto-generated constructor stub
     }
 }

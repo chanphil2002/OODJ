@@ -11,7 +11,7 @@ public class Login {
     private static final String userFile = "users.txt";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<User> users = loadUsers();
+        List<Account> accounts = loadAccounts();
 
         System.out.println("Welcome to the Login Interface!");
 
@@ -24,10 +24,10 @@ public class Login {
             System.out.print("Password: ");
             String inputPassword = scanner.nextLine();
 
-            User matchedUser = null;
-            for (User user : users) {
-                if (user.getUserID().equals(inputUserID) && user.getPassword().equals(inputPassword)) {
-                    matchedUser = user;
+            Account matchedUser = null;
+            for (Account account : accounts) {
+                if (account.getUserID().equals(inputUserID) && account.getPassword().equals(inputPassword)) {
+                    matchedUser = account;
                     break;
                 }
             }
@@ -35,7 +35,7 @@ public class Login {
             if (matchedUser != null) {
                 loggingIn = false;
                 if (userRole == "admin") {
-                    Admin admin = new Admin(inputUserID, inputPassword, "admin");
+                    Admin admin = new Admin();
                     admin.adminMenu();
                 }
                 //stuffs after login in
@@ -52,8 +52,8 @@ public class Login {
         scanner.close();
     }
 
-    private static List<User> loadUsers() {
-        List<User> users = new ArrayList<>();
+    private static List<Account> loadAccounts() {
+        List<Account> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -62,12 +62,36 @@ public class Login {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(new User(userID, password, role));
+                    users.add(new Account(userID, password, role));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return users;
+    }
+}
+
+class Account {
+    private String userID;
+    private String password;
+    private String role;
+
+    public Account(String userID, String password, String role) {
+        this.userID = userID;
+        this.password = password;
+        this.role = role;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 }

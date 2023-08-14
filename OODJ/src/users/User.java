@@ -13,7 +13,7 @@ import java.io.ObjectOutputStream;
  *
  * @author pc
  */
-public class User implements Serializable{
+public abstract class User implements Serializable{
     private String userID;
     private String password;
     private String role;
@@ -21,18 +21,5 @@ public class User implements Serializable{
 
     public static Scanner userScanner(){
         return scanner;
-    }
-
-    public User(String userID, String password, String role) {
-        this.userID = userID;
-        this.password = password;
-        this.role = role;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-    public String getPassword() {
-        return password;
     }
 }
