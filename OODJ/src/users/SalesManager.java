@@ -13,9 +13,6 @@ import supplierentry.Supplier;
 import purchaserequisition.*;
 import java.io.*;
 import java.util.Scanner;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 public class SalesManager extends User implements Serializable{
     private CreatePurchaseRequisition CreatePurchaseRequisition;
@@ -23,7 +20,8 @@ public class SalesManager extends User implements Serializable{
     private EditPurchaseRequisition EditPurchaseRequisition;
     private ViewPurchaseRequisition ViewPurchaseRequisition;
     
-    public SalesManager(){
+    public SalesManager(String userID, String password, String role){
+        super(userID, password, role);
         CreatePurchaseRequisition = new CreatePurchaseRequisition();
         DeletePurchaseRequisition = new DeletePurchaseRequisition();
         EditPurchaseRequisition = new EditPurchaseRequisition();

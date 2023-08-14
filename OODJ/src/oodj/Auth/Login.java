@@ -18,15 +18,15 @@ public class Login {
         boolean loggingIn = true;
         String userRole = null;
         while (loggingIn) {
-            System.out.print("Username: ");
-            String enteredUsername = scanner.nextLine();
+            System.out.print("User ID: ");
+            String inputUserID = scanner.nextLine();
 
             System.out.print("Password: ");
-            String enteredPassword = scanner.nextLine();
+            String inputPassword = scanner.nextLine();
 
             User matchedUser = null;
             for (User user : users) {
-                if (user.getUserID().equals(enteredUsername) && user.getPassword().equals(enteredPassword)) {
+                if (user.getUserID().equals(inputUserID) && user.getPassword().equals(inputPassword)) {
                     matchedUser = user;
                     break;
                 }
@@ -35,8 +35,8 @@ public class Login {
             if (matchedUser != null) {
                 loggingIn = false;
                 if (userRole == "admin") {
-                    Admin admin = new Admin();
-                    //admin.menu()
+                    Admin admin = new Admin(inputUserID, inputPassword, "admin");
+                    admin.adminMenu();
                 }
                 //stuffs after login in
             } else {
