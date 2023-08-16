@@ -34,11 +34,14 @@ public class Login {
 
             if (matchedUser != null) {
                 loggingIn = false;
-                if (userRole == "admin") {
+                if (userRole == "Admin") {
                     Admin admin = new Admin();
                     admin.adminMenu();
+                } else if (userRole == "Purchase Manager") {
+
+                } else if (userRole == "Sales Manager") {
+
                 }
-                //stuffs after login in
             } else {
                 System.out.println("Login failed. Invalid username or password.");
                 System.out.print("Do you want to retry? (yes/no): ");
