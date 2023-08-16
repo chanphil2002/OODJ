@@ -13,9 +13,6 @@ import supplierentry.Supplier;
 import purchaserequisition.*;
 import java.io.*;
 import java.util.Scanner;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 public class SalesManager extends User implements Serializable{
     private CreatePurchaseRequisition CreatePurchaseRequisition;
