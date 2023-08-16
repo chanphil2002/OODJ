@@ -5,12 +5,14 @@
 package itementry;
 
 import supplierentry.Supplier;
+import utility.*;
 import java.io.*;
+import java.util.List;
 /**
  *
  * @author pc
  */
-public class Item {
+public class Item implements FileFormattable, FileReadable<Item>{
     private String itemCode;
     private String itemName;
     private int itemQuantity;
@@ -69,4 +71,21 @@ public class Item {
     public void setSupplierID(Supplier supplierID){
         this.supplierID = supplierID;
     }
+
+    @Override
+    public String formatForFile() {
+        return itemCode + "," + itemName + "," + itemQuantity + "," + price + "," + supplierID;
+    }
+
+    @Override
+    public List<Item> readFromFile(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Item parseLine(String line) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
 }
