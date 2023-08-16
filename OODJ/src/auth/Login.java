@@ -1,4 +1,4 @@
-package oodj.Auth;
+package auth;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import users.*;
 
 public class Login {
     private static final String userFile = "users.txt";
-    public static void main(String[] args) {
+    public static void loginInterface() {
         Scanner scanner = new Scanner(System.in);
         List<Account> accounts = loadAccounts();
 
@@ -35,8 +35,7 @@ public class Login {
             if (matchedUser != null) {
                 loggingIn = false;
                 if (userRole == "Admin") {
-                    Admin admin = new Admin();
-                    admin.adminMenu();
+                    Admin.adminMenu();
                 } else if (userRole == "Purchase Manager") {
 
                 } else if (userRole == "Sales Manager") {
