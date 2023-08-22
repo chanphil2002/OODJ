@@ -15,12 +15,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.function.Function;
+import utility.*;
 
 
 public class FileOperations {
 
-    public static <T> void writeObjectToFile(FileFormattable object, String filePath){
+    //Write Data to File
+    public static <T> void writeObjectToFile(IFileFormattable object, String filePath){
         try (FileWriter writer = new FileWriter(filePath, true)) {
             String formattedData = object.formatForFile();
             writer.write(formattedData + "\n");
@@ -30,110 +31,56 @@ public class FileOperations {
         }
     }
     
-//    public static void addItemToFile(Item item){
-//      String filePath = "items.txt";
-//        
-//        try(FileWriter writer = new FileWriter(filePath, true)){
-//            String itemData = item.getItemCode() + "," +
-//                              item.getItemName() + "," +
-//                              item.getItemQuantity() + "," + 
-//                              item.getPrice() + "," +
-//                              item.getSupplierID() + "\n";
-//            writer.write(itemData);
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//    }
-    
-    public static <T> List<T> readObjectsFromFile(String filePath, FileReadable<T> reader){
+    //Read Lines From File and Parse Data Into List
+    public static <T> List<T> readObjectsFromFile(String filePath, IDataParser<T> parser){
+        List<String> lines = new ArrayList<>();
         List<T> dataList = new ArrayList<>();
         
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))){
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))){
             String line;
             while((line = bufferedReader.readLine()) != null){
-                T data = reader.parseLine(line);
-                dataList.add(data);
+                lines.add(line);
             }
         } catch(IOException e){
             e.printStackTrace();
+        }
+
+        for (String line : lines){
+            T data = parser.parseData(line);
+            dataList.add(data);
         }
         
         return dataList;
     }
-//    public static void ReadItemsFromFile() {
+    
+    //Update Data into File
+    public static <T> void updateFile(String filePath, IDataParser<T> parser, IFileFormattable object){
+        List<T> dataList = FileOperations.readObjectsFromFile(filePath, parser);
+        
+        FileOperations.writeObjectToFile(object, filePath);
+    }
+    
+//    public static void deleteItemFromFile(String itemCodeToDelete) {
 //        String filePath = "items.txt";
-//        
-//        try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
+//        List<String> lines = new ArrayList<>();
+//
+//        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 //            String line;
-//            while ((line = reader.readLine()) != null){
-//                String[] itemData = line.split(",");
-//                if(itemData.length == 5){
-//                    String itemCode = itemData[0];
-//                    String itemName = itemData[1];
-//                    int itemQuantity = Integer.parseInt(itemData[2]);
-//                    double price = Double.parseDouble(itemData[3]);
-//                    String supplierID = itemData[4];
-//                    
-//                    System.out.println("Item Code: " + itemCode);
-//                    System.out.println("Item Name: " + itemName);
-//                    System.out.println("Item Quantity: " + itemQuantity);
-//                    System.out.println("Price: " + price);
-//                    System.out.println("Supplier ID: " + supplierID);
-//                    System.out.println("---------------------");
+//            while ((line = reader.readLine()) != null) {
+//                if (!line.startsWith(itemCodeToDelete)) {
+//                    lines.add(line);
 //                }
 //            }
-//        } catch(IOException e){
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try (FileWriter writer = new FileWriter(filePath, false)) {
+//            for (String line : lines) {
+//                writer.write(line + "\n");
+//            }
+//        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
 //    }
-    
-    public static void updateItemtoFile(String itemCodetoUpdate, String updatedData){
-        String filePath = "items.txt";
-        List<String> lines = new ArrayList<>();
-        
-        try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
-            String line;
-            while((line = reader.readLine()) != null){
-                if(!line.startsWith(itemCodetoUpdate)){
-                    lines.add(updatedData);
-                } else {
-                    lines.add(line);
-                }
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        
-        try(FileWriter writer = new FileWriter(filePath, false)){
-            for(String line : lines){
-                writer.write(line + "\n");
-            } 
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    
-    public static void deleteItemFromFile(String itemCodeToDelete) {
-        String filePath = "items.txt";
-        List<String> lines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.startsWith(itemCodeToDelete)) {
-                    lines.add(line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (FileWriter writer = new FileWriter(filePath, false)) {
-            for (String line : lines) {
-                writer.write(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

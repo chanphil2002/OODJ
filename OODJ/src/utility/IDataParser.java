@@ -4,12 +4,10 @@
  */
 package utility;
 
-import java.util.List;
 /**
  *
  * @author pc
  */
-public interface FileReadable<T> {
-     List<T> readFromFile(String filePath);
-     T parseLine(String line);
+public interface IDataParser<T> {
+    T parseData(String line);
 }

@@ -9,6 +9,6 @@ import itementry.*;
  *
  * @author pc
  */
-public interface FileFormattable {
+public interface IFileFormattable {
     String formatForFile();
 }

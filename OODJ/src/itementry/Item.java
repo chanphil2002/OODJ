@@ -8,11 +8,12 @@ import supplierentry.Supplier;
 import utility.*;
 import java.io.*;
 import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author pc
  */
-public class Item implements FileFormattable, FileReadable<Item>{
+public class Item implements IFileFormattable, IDataParser<Item>{
     private String itemCode;
     private String itemName;
     private int itemQuantity;
@@ -20,6 +21,17 @@ public class Item implements FileFormattable, FileReadable<Item>{
     private Supplier supplierID;
     
     public Item(){    
+    }
+    
+    public Item(String itemCode, String itemName){
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+    }
+    
+    public Item(String itemCode, String itemName, int itemQuantity){
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.itemQuantity = itemQuantity;
     }
     
     public Item(String itemCode, String itemName, int itemQuantity, float price, Supplier supplierID){
@@ -33,6 +45,15 @@ public class Item implements FileFormattable, FileReadable<Item>{
     //Getter Methods
     public String getItemCode(){
         return itemCode;
+    }
+    
+    public static Item getItemCode(List<Item> itemList, String itemId) {
+        for (Item item : itemList) {
+            if (item.getItemCode().equals(itemId)) {
+                return item;
+            }
+        }
+        return null; // Item with specified ID not found
     }
     
     public String getItemName(){
@@ -72,20 +93,24 @@ public class Item implements FileFormattable, FileReadable<Item>{
         this.supplierID = supplierID;
     }
 
+    //Data Formatting for Writing
     @Override
     public String formatForFile() {
-        return itemCode + "," + itemName + "," + itemQuantity + "," + price + "," + supplierID;
-    }
-
-    @Override
-    public List<Item> readFromFile(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Item parseLine(String line) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return itemCode + "," + itemName /* + "," + itemQuantity + "," + price + "," + supplierID */;
     }
     
-    
+    //Data Parsing for Reading
+    @Override
+    public Item parseData(String line){
+        String[] parts = line.split(",");
+        if (parts.length == 2) { // Assuming 2 attributes in the data
+            String itemCode = parts[0];
+            String itemName = parts[1];
+//            int itemQuantity = Integer.parseInt(parts[2]);
+//            float price = Float.parseFloat(parts[3]);
+
+            return new Item(itemCode, itemName);
+        }
+        return null;
+    } 
 }
