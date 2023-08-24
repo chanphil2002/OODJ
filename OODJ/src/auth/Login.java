@@ -11,12 +11,12 @@ public class Login {
     private static final String userFile = "users.txt";
     public static void loginInterface() {
         Scanner scanner = new Scanner(System.in);
-        List<Account> accounts = loadAccounts();
+        List<User> users = loadUsers();
 
         System.out.println("Welcome to the Login Interface!");
 
         boolean loggingIn = true;
-        String userRole = null;
+        User matchedUser = null;
         while (loggingIn) {
             System.out.print("User ID: ");
             String inputUserID = scanner.nextLine();
@@ -24,23 +24,17 @@ public class Login {
             System.out.print("Password: ");
             String inputPassword = scanner.nextLine();
 
-            Account matchedUser = null;
-            for (Account account : accounts) {
-                if (account.getUserID().equals(inputUserID) && account.getPassword().equals(inputPassword)) {
-                    matchedUser = account;
+            
+            for (User user : users) {
+                if (user.getUserID().equals(inputUserID) && user.getPassword().equals(inputPassword)) {
+                    matchedUser = user;
                     break;
                 }
             }
-
+            
             if (matchedUser != null) {
                 loggingIn = false;
-                if (userRole == "Admin") {
-                    Admin.adminMenu();
-                } else if (userRole == "Purchase Manager") {
-
-                } else if (userRole == "Sales Manager") {
-
-                }
+                matchedUser.menu(); // Call the menu from the role user is from
             } else {
                 System.out.println("Login failed. Invalid username or password.");
                 System.out.print("Do you want to retry? (yes/no): ");
@@ -54,8 +48,8 @@ public class Login {
         scanner.close();
     }
 
-    private static List<Account> loadAccounts() {
-        List<Account> users = new ArrayList<>();
+    private static List<User> loadUsers() {
+        List<User> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -64,7 +58,7 @@ public class Login {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(new Account(userID, password, role));
+                    users.add(UserFactory.createUser(userID, password, role));
                 }
             }
         } catch (IOException e) {
@@ -74,26 +68,16 @@ public class Login {
     }
 }
 
-class Account {
-    private String userID;
-    private String password;
-    private String role;
 
-    public Account(String userID, String password, String role) {
-        this.userID = userID;
-        this.password = password;
-        this.role = role;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
+class UserFactory {
+    public static User createUser(String userID, String password, String role){
+        if ("Admin".equals(role)){
+            return new Admin(userID, password);
+        }   else if ("Purchase Manager".equals(role)) {
+            return new PurchaseManager(userID, password);
+        }   else if ("Sales Manager".equals(role)) {
+            return new SalesManager(userID, password);
+        }
+        return null;
     }
 }

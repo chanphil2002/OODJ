@@ -18,7 +18,7 @@ public class main {
      */
     public static void main(String[] args) {
         Login.loginInterface();
-        SalesManager sm = new SalesManager();
+        SalesManager sm = new SalesManager(null, null);
         
         sm.CreatePurchaseRequisition();
     }

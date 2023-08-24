@@ -13,11 +13,27 @@ import java.util.Scanner;
 public abstract class User implements Serializable{
     private String userID;
     private String password;
-    private String role;
     private static Scanner scanner = new Scanner(System.in);
 
     public static Scanner userScanner(){
         return scanner;
+    }
+
+    public User(String userID, String password){
+        this.userID = userID;
+        this.password = password;
+    }
+
+    public String getUserID(){
+        return this.userID;
+    }
+
+    public String getPassword(){
+        return this.password;
+    }
+
+    public void menu(){
+        //overriding this
     }
 
     public static int optionPicker(List<String> options){

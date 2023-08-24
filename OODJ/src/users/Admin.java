@@ -13,10 +13,14 @@ import java.util.List;
  */
 public class Admin extends User{
     
+    public Admin(String userID, String password) {
+        super(userID, password);
+    }
+
     /**
      * 
      */
-    public static void adminMenu() {
+    public void menu() {
         System.out.println("Admin Menu\n");
         List<String> options = new ArrayList<String>();
         options.add("Manage Users");
@@ -48,7 +52,7 @@ public class Admin extends User{
         }
     }
 
-    public static void manageUserMenu() {
+    public void manageUserMenu() {
         //TODO print user list here
         List<String> options = new ArrayList<String>();
         options.add("Add user");
@@ -67,7 +71,7 @@ public class Admin extends User{
 
                 break;
             case 4:
-                adminMenu();
+                this.menu();
                 break;
         }
         
