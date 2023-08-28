@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author pc
  */
-public class Item implements IFileFormattable, IDataParser<Item>{
+public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchable{
     private String itemCode;
     private String itemName;
     private int itemQuantity;
@@ -43,13 +43,14 @@ public class Item implements IFileFormattable, IDataParser<Item>{
     }
     
     //Getter Methods
-    public String getItemCode(){
+    @Override
+    public String getCode() {
         return itemCode;
     }
     
     public static Item getItemCode(List<Item> itemList, String itemId) {
         for (Item item : itemList) {
-            if (item.getItemCode().equals(itemId)) {
+            if (item.getCode().equals(itemId)) {
                 return item;
             }
         }
@@ -113,4 +114,6 @@ public class Item implements IFileFormattable, IDataParser<Item>{
         }
         return null;
     } 
+
+
 }

@@ -53,6 +53,17 @@ public class FileOperations {
         return dataList;
     }
     
+    //Search Data based on Code
+    public static IDataSearchable findDataByCode(String code, List<? extends IDataSearchable> dataList){
+        for(IDataSearchable data : dataList){
+            if(data.getCode().equals(code)){
+                return data;
+            }
+        }
+
+        return null;
+    }
+    
     //Update Data into File
     public static <T> void updateFile(String filePath, IDataParser<T> parser, IFileFormattable object){
         List<T> dataList = FileOperations.readObjectsFromFile(filePath, parser);

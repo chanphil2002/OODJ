@@ -37,6 +37,9 @@ public class main {
             System.out.println("itemCode: " + i.getItemCode());
             System.out.println("ItemName: " + i.getItemName());
         }
+        Sales s = new Sales();
+        MenuUtils m = new MenuUtils();
+        m.createEntry()
     }
     
 
