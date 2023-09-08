@@ -60,5 +60,24 @@ public abstract class User<T> implements IFileFormattable, IDataParser<T>, IData
         return roleName;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoleName(String role) {
+        if (role.toLowerCase() == "admin"){
+            this.roleName = "Admin";
+        }
+        else if (role.toLowerCase() == "purchase manager"){
+            this.roleName = "Purchase Manager";
+        }
+        else if (role.toLowerCase() == "sales manager"){
+            this.roleName = "Sales Manager";
+        }
+    }
+    public String getFilePath() {
+        return null;
+    }
+
     
 }

@@ -24,22 +24,18 @@ public class CreateAccount {
         String password = scanner.nextLine();
         System.out.println("Select a role for the user:");
         List<String> options = new ArrayList<String>();
-        options.add("Admin");
         options.add("Purchase Manager");
         options.add("Sales Manager");
         int option = OptionPicker.optionPicker(options);
         switch (option) {
             case 1:
-                FileOperations.writeObjectToFile(UserFactory.createUser(password, "Admin"), "resources/data/admin.txt");
-                break;
-            case 2:
                 FileOperations.writeObjectToFile(UserFactory.createUser(password, "Purchase Manager"), "resources/data/purchasemanager.txt");
                 break;
-            case 3:
-                FileOperations.writeObjectToFile(UserFactory.createUser(password, "Sales"), "resources/data/salesmanager.txt");
+            case 2:
+                FileOperations.writeObjectToFile(UserFactory.createUser(password, "Sales Manager"), "resources/data/salesmanager.txt");
                 break;
         }
-        
+        System.out.println("User has been created.");
 
         
     }
