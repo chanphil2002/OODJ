@@ -1,4 +1,3 @@
-I001,Chocolate Chips,27,10.0,D001,true
-I002,Munchie Cookies,104,9.0,D002,true
-I003,Marshmellow,31,6.0,D008,true
-I004,Popcorn,20,7.9,D001,true
+I001,Chocolate Chips,10,5.0,[SP011],true
+I002,Sunflower Seeds,10,3.0,[SP012:SP013],true
+I003,Popcorn,10,4.50,[SP011:SP001],true

@@ -5,6 +5,7 @@
 package model;
 
 import controller.*;
+import java.util.ArrayList;
 import java.util.List;
 import static model.Supplier.*;
 /**
@@ -16,7 +17,7 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
     private String itemName;
     private int quantity;
     private float price;
-    private Supplier supplier;
+    private List<Supplier> itemSupplierList;
     private final String filePath = "resources/data/item.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     private boolean dataAvailable;
@@ -27,12 +28,12 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
         dataAvailable = true;
     }
     
-    public Item(String itemCode, String itemName, int quantityLeft, float price, Supplier supplier, boolean dataAvailable){
+    public Item(String itemCode, String itemName, int quantityLeft, float price, List<Supplier> itemSupplierList, boolean dataAvailable){
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.quantity = quantityLeft;
         this.price = price;
-        this.supplier = supplier;
+        this.itemSupplierList = itemSupplierList;
         this.dataAvailable = dataAvailable;
     }
     
@@ -56,13 +57,10 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
         return price;
     }
     
-    public String getSupplierCode(){
-        return supplier.getCode();
+    public List<Supplier> getSupplierList(){
+        return itemSupplierList;
     }
     
-    public String getSupplierName(){
-        return supplier.getSupplierName();
-    }
     
     public String getFilePath(){
         return filePath;
@@ -85,14 +83,36 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
         this.price = price;
     }
     
-    public void setSupplier(Supplier supplier){
-        this.supplier = supplier;
+    public void addSupplier(Supplier supplier){
+        if(itemSupplierList == null){
+            itemSupplierList = new ArrayList<>();
+        }
+        itemSupplierList.add(supplier);
     }
 
     //Data Formatting for Writing
     @Override
     public String formatForFile() {
-        return itemCode + "," + itemName + "," + quantity + "," + price + "," + supplier.getCode() + "," + dataAvailable;
+        StringBuilder formattedData = new StringBuilder();
+        formattedData.append(itemCode).append(",").append(itemName)
+                .append(",").append(quantity)
+                .append(",").append(price)
+                .append(",[");
+                
+        boolean isFirstItem = true;
+        
+        for(Supplier s : itemSupplierList){
+            // Append a comma before each item (except the first one)
+            if (!isFirstItem) {
+                formattedData.append(":");
+            } else {
+                isFirstItem = false;
+            }
+            formattedData.append(s.getCode());
+        }
+        formattedData.append("]").append(",");
+        formattedData.append(dataAvailable);
+        return formattedData.toString();
     }
     
     //Data Parsing for Reading
@@ -104,12 +124,21 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
             String itemName = parts[1];
             int quantity = Integer.parseInt(parts[2]);
             float price = Float.parseFloat(parts[3]);
-            String supplierID = parts[4];
+            
+            String suppliersStr = parts[4];
+            suppliersStr = suppliersStr.substring(1, suppliersStr.length() - 1);
+            String[] supplierQuantityPairs = suppliersStr.split("\\:");
+            
+            List<Supplier> itemSupplierList = new ArrayList<>();
+            List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+            for(String s : supplierQuantityPairs){
+                Supplier supplier = (Supplier) FileOperations.findDataByCode(s, supplierList);
+                itemSupplierList.add(supplier);
+            }
+            
             boolean dataAvailable = Boolean.parseBoolean(parts[5]);
 
-            Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
-
-            return new Item(itemCode, itemName, quantity, price, supplier, dataAvailable);
+            return new Item(itemCode, itemName, quantity, price, itemSupplierList, dataAvailable);
         }
         return null;
     } 

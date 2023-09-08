@@ -23,7 +23,7 @@ import model.Item;
 public class PurchaseRequisition implements IFileFormattable, IDataParser<PurchaseRequisition>, IDataSearchable, IFileStatus{
     private LocalDate PRDate;
     private String PRID;
-    private Map<Item, Integer> itemsRequested;
+    private List<PurchaseItem> purchaseItemsList;
     private PurchaseStatus status;
     private boolean dataAvailable;
     
@@ -32,16 +32,16 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
     
     public PurchaseRequisition(){
         PRDate = LocalDate.now();
-        PRID = idGenerator.generateID("P");
-        this.itemsRequested = new HashMap<>();
+        PRID = idGenerator.generateID("PR");
+        this.purchaseItemsList = new ArrayList<>();
         status = PurchaseStatus.PENDING;
         dataAvailable = true;
     }
     
-    public PurchaseRequisition(String PRID, Map<Item,Integer> itemsRequested, PurchaseStatus status, LocalDate date, boolean dataAvailable){
+    public PurchaseRequisition(String PRID, List<PurchaseItem> purchaseItemsList, PurchaseStatus status, LocalDate date, boolean dataAvailable){
         this.PRDate = date;
         this.PRID = PRID;
-        this.itemsRequested = itemsRequested;
+        this.purchaseItemsList = purchaseItemsList;
         this.status = status;
         this.dataAvailable = dataAvailable;
     }
@@ -55,22 +55,12 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
         return PRID;
     }
     
-    public Map<Item, Integer> getItemsRequested(){
-        return itemsRequested;
+    public List<PurchaseItem> getItemsRequested(){
+        return purchaseItemsList;
     }
     
-    public void addItemsRequested(Item item, int quantity){
-        System.out.println(itemsRequested);
-        // Check if the item is already in the map
-        if (itemsRequested.containsKey(item)) {
-            // If it is, update the quantity
-            int currentQuantity = itemsRequested.get(item);
-            
-            itemsRequested.put(item, currentQuantity + quantity);
-        } else {
-            // If it's not, add a new entry
-            itemsRequested.put(item, quantity);
-        }
+    public void addItemsRequested(PurchaseItem item){
+        purchaseItemsList.add(item);
     }
     
     public PurchaseStatus getStatus() {
@@ -92,10 +82,7 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
         
         boolean isFirstItem = true; // Track if it's the first item
         
-        for (Map.Entry<Item, Integer> entry : itemsRequested.entrySet()) {
-            Item item = entry.getKey();
-            int quantity = entry.getValue();
-            
+        for (PurchaseItem entry : purchaseItemsList) {
             // Append a comma before each item (except the first one)
             if (!isFirstItem) {
                 formattedData.append(".");
@@ -103,7 +90,9 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
                 isFirstItem = false;
             }
             // Append item and quantity to the formatted string
-            formattedData.append(item.getCode()).append(":").append(quantity);
+            formattedData.append(entry.getItem().getCode()).append(":")
+                    .append(entry.getQuantityRequested()).append(":")
+                    .append(entry.getSupplier().getCode());
         }
         formattedData.append("]").append(",");
         formattedData.append(status).append(",");
@@ -134,22 +123,28 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
         // Split itemsStr into individual item-quantity pairs
         String[] itemQuantityPairs = itemsStr.split("\\.");
         
-        Map<Item, Integer> itemsRequested = new HashMap<>();
+        List<PurchaseItem> itemsRequestedList = new ArrayList<>();
+        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
         
         for (String pair : itemQuantityPairs) {
             // Split each pair into item name and quantity
             String[] pairParts = pair.split(":");
-  
+            
             // Ensure that the pair has two parts
-            if (pairParts.length != 2) {
+            if (pairParts.length != 3) {
                 throw new IllegalArgumentException("Invalid item-quantity pair: " + pair);
             }
             
-            List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
             String itemCode = pairParts[0];
             int quantity = Integer.parseInt(pairParts[1]);
+            String supplierID = pairParts[2];
+            
             Item item = (Item) FileOperations.findDataByCode(itemCode, itemList);
-            itemsRequested.put(item, quantity);
+            
+            Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            PurchaseItem purchaseItem = new PurchaseItem(item, supplier, quantity);
+            itemsRequestedList.add(purchaseItem);
         }
         
         // Extract date and file status
@@ -157,7 +152,7 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
         LocalDate date = LocalDate.parse(parts[3]);
         boolean dataAvailable = Boolean.parseBoolean(parts[4]);
         // Create and return a PR object
-        PurchaseRequisition PR = new PurchaseRequisition(PRID, itemsRequested, readStatus, date, dataAvailable);
+        PurchaseRequisition PR = new PurchaseRequisition(PRID, itemsRequestedList, readStatus, date, dataAvailable);
 
         return PR;
     }

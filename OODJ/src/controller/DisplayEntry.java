@@ -31,12 +31,19 @@ public class DisplayEntry {
         Item item = new Item();
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt",item);
         
-        System.out.printf("%-17s %-25s %-25s %-20s%n", "Current Item ID |", "Current Item Name       |", "Current Item Quantity |", "Current Item Price ");
+        System.out.printf("%-17s %-25s %-25s %-20s%n", "Current Item ID |", "Current Item Name       |", "Current Item Quantity |", "Available Supplier ");
         for(Item i : itemList){
             if(i.getDataAvailable()==true){
+                List<Supplier> supplierList = i.getSupplierList();
+                StringBuilder supplierIds = new StringBuilder();
+                for(Supplier supplier : supplierList){
+                    if (supplierIds.length() > 0) {
+                        supplierIds.append(", ");
+                    }
+                    supplierIds.append(supplier.getCode());
+                }
                 System.out.printf("%-17s %-25s %-25s %-20s%n", i.getCode(), 
-                        i.getItemName(), i.getItemQuantity(),  
-                        i.getSupplierCode(), i.getSupplierName());
+                        i.getItemName(), i.getItemQuantity(), supplierIds.toString());
             }
         }
     }
@@ -62,6 +69,9 @@ public class DisplayEntry {
         for(PurchaseRequisition p : prList){
             if(p.getDataAvailable()==true){
                 System.out.printf("%-17s %-30s %-25s%n",  p.getDate(),p.getCode(), p.getStatus());
+                for (PurchaseItem entry : p.getItemsRequested()) {
+                    System.out.println(entry.getItem().getCode());
+                }
             }
         }
         

@@ -29,6 +29,8 @@ public class CreateEntry {
     
     public static void createItemEntry(){
         Item item = new Item();
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+        
         System.out.println("Enter Item Name: ");
         item.setItemName(scanner.nextLine());
         
@@ -39,17 +41,23 @@ public class CreateEntry {
         item.setPrice(scanner.nextFloat());
         scanner.nextLine();
         
-        System.out.println("Enter Supplier ID: ");
-        String supplierID = scanner.nextLine();
-        
-        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
-        Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
-        
-        if(supplier != null){
-            item.setSupplier(supplier);
-        } else {
-            System.out.println("Supplier with ID: " + supplierID + "not found.");
-            return;
+        boolean continueEnteringSupplier = true;
+        while (continueEnteringSupplier) {
+            System.out.println("Enter Supplier ID (Can be multiple Supplier): ");
+            String supplierID = scanner.nextLine();
+            
+            if (supplierID.equalsIgnoreCase("exit")) {
+                continueEnteringSupplier = false;
+                break;
+            }
+            
+            Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            if(supplier != null){
+                item.addSupplier(supplier);
+            } else {
+                System.out.println("Supplier with ID: " + supplierID + "not found.");
+                return;
+            }
         }
         FileOperations.writeObjectToFile(item, "resources/data/item.txt");
     }
@@ -96,7 +104,7 @@ public class CreateEntry {
     public static void createPREntry(){
         PurchaseRequisition PR = new PurchaseRequisition();
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-        Map<String, Integer> itemQuantities = new HashMap<>();
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
         
         boolean continueEnteringPR = true;
         while (continueEnteringPR) {
@@ -114,20 +122,19 @@ public class CreateEntry {
                 System.out.println("Enter Quantity Requested: ");
                 int quantity = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
-
-                // Check if the item code already exists in the map
-                if (itemQuantities.containsKey(itemCode)) {
-                    // If it exists, add the new quantity to the existing quantity
-                    int existingQuantity = itemQuantities.get(itemCode);
-                    itemQuantities.put(itemCode, existingQuantity + quantity);
+                
+                System.out.println("Enter Supplier ID: ");
+                String supplierID = scanner.nextLine();
+                
+                Supplier foundSupplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+                
+                if(foundSupplier != null) {
+                    PurchaseItem purchaseItem = new PurchaseItem(foundItem, foundSupplier, quantity);
+                    PR.addItemsRequested(purchaseItem);
                 } else {
-                    // If it doesn't exist, simply put the quantity in the map
-                    itemQuantities.put(itemCode, quantity);
+                    System.out.println("Supplier not found.");
                 }
 
-                // Add the item to the PR
-                PR.addItemsRequested(foundItem, quantity);
-                
             } else {
                 System.out.println("Item not found.");
             }
@@ -137,23 +144,17 @@ public class CreateEntry {
     
     public static void createPOEntry(){
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        System.out.println("Select Purchase Requisition ID: ");
+        System.out.print("Select Purchase Requisition ID: ");
         String PRID = scanner.nextLine();
         PurchaseRequisition foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
         System.out.println(foundPR.getCode());
-        Map<Item, Integer> itemsRequested = foundPR.getItemsRequested();
-            for (Map.Entry<Item, Integer> entry : itemsRequested.entrySet()) {
-            Item key = entry.getKey();
-            Integer value = entry.getValue();
-            System.out.println(key.getCode() + ": " + value);
-        }
-        System.out.println(itemsRequested);
         System.out.print("Do you want to accept this Purchase Requisition? (yes/no): ");
         String response = scanner.nextLine();
         
         if(response.equalsIgnoreCase("yes")){
             // Set the status to APPROVED if accepted
             foundPR.setStatus(PurchaseStatus.APPROVED);
+            System.out.println(foundPR.getCode());
             FileOperations.updateObjectInFile(foundPR, "resources/data/purchaserequisition.txt", prList);
             // Create a Purchase Order if the PR status is "APPROVED"
             if (foundPR.getStatus() == PurchaseStatus.APPROVED) {

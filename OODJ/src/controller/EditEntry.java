@@ -200,20 +200,18 @@ public class EditEntry {
                 System.out.println("Date: " + foundPR.getDate());
                 System.out.println("Sales ID: " + foundPR.getCode());
                 System.out.printf("%-17s %-25s %-25s %-20s%n", "Item ID |", "Current Item Name       |", "Current Quantity Sold |", "Total ");
-                for(Map.Entry<Item, Integer> entry : foundPR.getItemsRequested().entrySet()){
-                    Item item = entry.getKey();
-                    int quantity = entry.getValue();
+                for(PurchaseItem p : foundPR.getItemsRequested()){
                    
-                    System.out.printf("%-17s %-25s %-25d %-20.2f%n", item.getCode(),
-                            item.getItemName(), quantity, item.getItemPrice()*quantity);
+                    System.out.printf("%-17s %-25s %-25d %-20.2f%n", p.getItem().getCode(),
+                            p.getItem().getItemName(), p.getQuantityRequested(), p.getSupplier().getCode());
                 }
                 System.out.println("Select Item ID in which you want to change.: (or Press Enter to skip)");
                 String itemPrompt = scanner.nextLine();
                 
                 if (!itemPrompt.isEmpty()) {
-                    Item selected = null;
-                    for (Item item : foundPR.getItemsRequested().keySet()) {
-                        if (item.getCode().equalsIgnoreCase(itemPrompt)) {
+                    PurchaseItem selected = null;
+                    for (PurchaseItem item : foundPR.getItemsRequested()) {
+                        if (item.getItem().getCode().equalsIgnoreCase(itemPrompt)) {
                             selected = item;
                             break;
                         }
@@ -224,7 +222,9 @@ public class EditEntry {
                         String quantityStr = scanner.nextLine();
                         if (!quantityStr.isEmpty()) {
                             int newQuantitySold = Integer.parseInt(quantityStr);
-                            foundPR.getItemsRequested().put(selected, newQuantitySold);
+                            selected.setQuantityRequested(newQuantitySold);
+                            int selectedIndex = foundPR.getItemsRequested().indexOf(selected);
+                            foundPR.getItemsRequested().set(selectedIndex, selected);
                             break;
                         }
                     } else {
@@ -258,42 +258,47 @@ public class EditEntry {
         System.out.println("Date: " + foundPO.getDate());
         System.out.println("Purchase Order ID: " + foundPO.getCode());
         System.out.printf("%-17s %-25s %-25s %-20s%n", "Item ID |", "Current Item Name       |", "Current Quantity Sold |", "Total ");
-        for(Map.Entry<Item, Integer> entry : foundPO.getAssociatedRequisition().getItemsRequested().entrySet()){
-            Item item = entry.getKey();
-            int quantity = entry.getValue();
-
-            System.out.printf("%-17s %-25s %-25d %-20.2f%n", item.getCode(),
-                    item.getItemName(), quantity, item.getItemPrice()*quantity);
+        for(PurchaseItem p : foundPO.getAssociatedRequisition().getItemsRequested()){
+            System.out.printf("%-17s %-25s %-25d %-20.2f%n", p.getItem().getCode(),
+                    p.getItem().getItemName(), p.getQuantityRequested(),p.getSupplier().getCode());
         }
         
         System.out.print("Purchase Order Completed (Y) / Purchase Order Cancelled (X): ");
         String itemPrompt = scanner.nextLine();
         if (!itemPrompt.isEmpty() && itemPrompt.equalsIgnoreCase("y")) {
             // Update item quantities in your inventory
-            for (Map.Entry<Item, Integer> entry : foundPO.getAssociatedRequisition().getItemsRequested().entrySet()) {
-                Item item = entry.getKey();
-                int quantityRequested = entry.getValue();
+            for (PurchaseItem p : foundPO.getAssociatedRequisition().getItemsRequested()) {
+                String itemCode = p.getItem().getCode();
+                Item correspondingItem = null;
+                for (Item item : itemList) {
+                    if (item.getCode().equalsIgnoreCase(itemCode)) {
+                        correspondingItem = item;
+                        break;
+                    }
+                }
+                
+                if (correspondingItem != null) {
+                    // Update the quantity in the Item class
+                    int newQuantity = correspondingItem.getItemQuantity() + p.getQuantityRequested();
+                    correspondingItem.setItemQuantity(newQuantity);
+                    FileOperations.updateObjectInFile(correspondingItem, correspondingItem.getFilePath(),itemList);
+                }
 
-                // Add the requested quantity to the item's quantity in your inventory
-                int newQuantity = item.getItemQuantity() + quantityRequested;
-                item.setItemQuantity(newQuantity);
-                FileOperations.updateObjectInFile(item, item.getFilePath(),itemList);
+                FileOperations.updateObjectInFile(foundPO, foundPO.getFilePath(),poList);
+                foundPO.setStatus(PurchaseStatus.COMPLETED);
+
+                System.out.println("Purchase Order Completed. Your Item has Arrived!");
+
+            } if (!itemPrompt.isEmpty() && itemPrompt.equalsIgnoreCase("x")) {
+                foundPO.setStatus(PurchaseStatus.CANCELLED);
+                System.out.println("Purchase Order Cancelled. Please Raise Requisition Again."); 
+            } if (itemPrompt.isEmpty()) {
+                System.out.println("Purchase Order for " + foundPO.getCode() + " is still Pending.");
             }
-
-            FileOperations.updateObjectInFile(foundPO, foundPO.getFilePath(),poList);
-            foundPO.setStatus(PurchaseStatus.COMPLETED);
-
-            System.out.println("Purchase Order Completed. Your Item has Arrived!");
-
-        } if (!itemPrompt.isEmpty() && itemPrompt.equalsIgnoreCase("x")) {
-            foundPO.setStatus(PurchaseStatus.CANCELLED);
-
-            System.out.println("Purchase Order Cancelled. Please Raise Requisition Again."); 
-        } if (itemPrompt.isEmpty()) {
-            System.out.println("Purchase Order for " + foundPO.getCode() + " is still Pending.");
         }
                 
         FileOperations.updateObjectInFile(foundPO, foundPO.getFilePath(),poList);
     }
 }
+
     

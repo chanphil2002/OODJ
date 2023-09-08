@@ -133,6 +133,7 @@ public class Sales implements IFileFormattable, IDataParser<Sales>, IDataSearcha
         
         Map<Item, Integer> itemsSold = new HashMap<>();
         
+        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
         for (String pair : itemQuantityPairs) {
             // Split each pair into item name and quantity
             String[] pairParts = pair.split(":");
@@ -142,7 +143,7 @@ public class Sales implements IFileFormattable, IDataParser<Sales>, IDataSearcha
                 throw new IllegalArgumentException("Invalid item-quantity pair: " + pair);
             }
             
-            List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+            
             String itemCode = pairParts[0];
             int quantity = Integer.parseInt(pairParts[1]);
             Item item = (Item) FileOperations.findDataByCode(itemCode, itemList);

@@ -29,7 +29,7 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
     
     public PurchaseOrder(PurchaseRequisition PR){
         this.PODate = LocalDate.now();
-        POID = idGenerator.generateID("K");
+        POID = idGenerator.generateID("PO");
         this.status = PurchaseStatus.PENDING;
         this.associatedRequisition = PR;
         dataAvailable = true;
@@ -81,10 +81,7 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
         
         boolean isFirstItem = true; // Track if it's the first item
         
-        for (Map.Entry<Item, Integer> entry : associatedRequisition.getItemsRequested().entrySet()) {
-            Item item = entry.getKey();
-            int quantity = entry.getValue();
-            
+        for (PurchaseItem entry : associatedRequisition.getItemsRequested()) {
             // Append a comma before each item (except the first one)
             if (!isFirstItem) {
                 formattedData.append(".");
@@ -92,9 +89,12 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
                 isFirstItem = false;
             }
             // Append item and quantity to the formatted string
-            formattedData.append(item.getCode()).append(":").append(quantity);
+            formattedData.append(entry.getItem().getCode()).append(":")
+                    .append(entry.getQuantityRequested()).append(":")
+                    .append(entry.getSupplier().getCode());
         }
         formattedData.append("]").append(",");
+        
         formattedData.append(status).append(",");
         formattedData.append(PODate).append(",");
         formattedData.append(dataAvailable);
@@ -117,33 +117,10 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
 
         // Extract the items and quantities section (itemsStr)
         String itemsStr = parts[2];
-
-//        // Remove the square brackets
-//        itemsStr = itemsStr.substring(1, itemsStr.length() - 1);
         
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
         PurchaseRequisition pr = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
         
-//        // Split itemsStr into individual item-quantity pairs
-//        String[] itemQuantityPairs = itemsStr.split("\\.");
-        
-//        for (String pair : itemQuantityPairs) {
-//            // Split each pair into item name and quantity
-//            String[] pairParts = pair.split(":");
-//            
-//            // Ensure that the pair has two parts
-//            if (pairParts.length != 2) {
-//                throw new IllegalArgumentException("Invalid item-quantity pair: " + pair);
-//            }
-//            List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-//            String itemCode = pairParts[0];
-//            int quantity = Integer.parseInt(pairParts[1]);
-//            Item item = Item.getItemByCode(itemList, itemCode);
-//            System.out.println(itemCode + quantity);
-//            
-//            // Add the item and quantity to the map
-//            associatedRequisition.getItemsRequested().put(item, quantity);
-//        }
         
         // Extract date
         PurchaseStatus p = PurchaseStatus.valueOf(parts[3]);

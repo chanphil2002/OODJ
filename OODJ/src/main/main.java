@@ -27,7 +27,7 @@ public class main {
 //        CreateEntry.createPREntry();
 //        CreateEntry.createPOEntry();
 //        
-        DisplayEntry.displaySupplierEntry();
+//        DisplayEntry.displaySupplierEntry();
 //        DisplayEntry.displayItemsEntry();
 //        DisplayEntry.displaySalesEntry();
 //        DisplayEntry.displayPREntry();
