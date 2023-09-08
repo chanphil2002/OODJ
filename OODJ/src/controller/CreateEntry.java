@@ -50,13 +50,17 @@ public class CreateEntry {
                 continueEnteringSupplier = false;
                 break;
             }
-            
-            Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
-            if(supplier != null){
-                item.addSupplier(supplier);
-            } else {
+            Supplier supplier = null;
+            boolean success = true;
+            try {
+                supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            } catch (Exception Exception) {
                 System.out.println("Supplier with ID: " + supplierID + "not found.");
-                return;
+                success = false;
+            } finally {
+                if (success) {
+                    item.addSupplier(supplier); 
+                }
             }
         }
         FileOperations.writeObjectToFile(item, "resources/data/item.txt");
@@ -76,10 +80,19 @@ public class CreateEntry {
                 continueEnteringSales = false;
                 break;
             }
-            
-            Item foundItem = (Item) FileOperations.findDataByCode(itemCode, itemList);
-            int itemQuantity = foundItem.getItemQuantity();
-            
+            Item foundItem = null;
+            int itemQuantity = 0;
+            boolean success = true;
+            try {
+                foundItem = (Item) FileOperations.findDataByCode(itemCode, itemList);
+            } catch (Exception Exception) {
+                System.out.println("Please input a correct item code.");
+                success = false;
+            } finally {
+                if (success) {
+                    itemQuantity = foundItem.getItemQuantity();
+                }
+            }
             while(true){
                 System.out.println("Enter Quantity Sold: ");
                 int quantity = scanner.nextInt();
@@ -115,38 +128,53 @@ public class CreateEntry {
                 continueEnteringPR = false;
                 break;
             }
-            
-            Item foundItem = (Item) FileOperations.findDataByCode(itemCode, itemList);
-            
-            if (foundItem != null) {
-                System.out.println("Enter Quantity Requested: ");
-                int quantity = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-                
-                System.out.println("Enter Supplier ID: ");
-                String supplierID = scanner.nextLine();
-                
-                Supplier foundSupplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
-                
-                if(foundSupplier != null) {
+            Item foundItem = null;
+            boolean success = true;
+            try {
+                foundItem = (Item) FileOperations.findDataByCode(itemCode, itemList);
+            } catch (Exception Exception) {
+                System.out.println("Item not found.");
+                success = false;
+            } finally {
+                if (success) {
+                    System.out.println("Enter Quantity Requested: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    Supplier foundSupplier = null;
+                    do { 
+                        try {
+                            success = true;
+                            System.out.println("Enter Supplier ID: ");
+                            String supplierID = scanner.nextLine();
+                            foundSupplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+                        } catch (Exception Exception) {
+                            System.out.println("Supplier not found.");
+                            success = false;
+                        }
+                    } while (!success);
                     PurchaseItem purchaseItem = new PurchaseItem(foundItem, foundSupplier, quantity);
                     PR.addItemsRequested(purchaseItem);
-                } else {
-                    System.out.println("Supplier not found.");
                 }
-
-            } else {
-                System.out.println("Item not found.");
-            }
+            }     
         }
             FileOperations.writeObjectToFile(PR, "resources/data/purchaserequisition.txt");
         }
     
     public static void createPOEntry(){
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        System.out.print("Select Purchase Requisition ID: ");
-        String PRID = scanner.nextLine();
-        PurchaseRequisition foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
+        boolean validity = false;
+        PurchaseRequisition foundPR = null;
+        do {
+            try {
+                System.out.print("Select Purchase Requisition ID: ");
+                String PRID = scanner.nextLine();
+                foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
+                validity = true;
+        }   catch (Exception Exception) {
+            validity = false;
+            System.out.println("Please input a correct ID.");
+        }
+        } while (!validity);
         System.out.println(foundPR.getCode());
         System.out.print("Do you want to accept this Purchase Requisition? (yes/no): ");
         String response = scanner.nextLine();
