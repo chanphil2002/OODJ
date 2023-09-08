@@ -1,0 +1,10 @@
+D001,Dorothy,true
+D002,Max,true
+D003,Linen,true
+D004,Couwer,true
+D005,Omen,true
+D006,Yusof,true
+D007,Niko,true
+D008,Sigma,true
+D009,Ronald,true
+D010,Husein,true

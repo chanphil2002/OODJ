@@ -83,7 +83,7 @@ public class CreateEntry {
                     foundItem.setItemQuantity(itemQuantity);
                     FileOperations.updateObjectInFile(foundItem, "resources/data/item.txt", itemList);
                     sales.addItem(foundItem, quantity);
-                    salesAmount += (foundItem.getItemPrice() * quantity);
+                    salesAmount += Math.round(foundItem.getItemPrice() * quantity);
                     break;
                 }
             }
@@ -154,7 +154,7 @@ public class CreateEntry {
         if(response.equalsIgnoreCase("yes")){
             // Set the status to APPROVED if accepted
             foundPR.setStatus(PurchaseStatus.APPROVED);
-            
+            FileOperations.updateObjectInFile(foundPR, "resources/data/purchaserequisition.txt", prList);
             // Create a Purchase Order if the PR status is "APPROVED"
             if (foundPR.getStatus() == PurchaseStatus.APPROVED) {
                 PurchaseOrder po = new PurchaseOrder(foundPR);
