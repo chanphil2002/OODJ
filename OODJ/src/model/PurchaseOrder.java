@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author pc
@@ -119,7 +121,13 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
         String itemsStr = parts[2];
         
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        PurchaseRequisition pr = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
+        PurchaseRequisition pr = null;
+        try {
+            pr = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
+        } catch (Exception ex) {
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         
         // Extract date

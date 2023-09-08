@@ -14,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Item;
 /**
  *
@@ -139,10 +141,17 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
             String itemCode = pairParts[0];
             int quantity = Integer.parseInt(pairParts[1]);
             String supplierID = pairParts[2];
+            Item item = null;
+            Supplier supplier = null;
+            try {
+                item = (Item) FileOperations.findDataByCode(itemCode, itemList);
+                supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            } catch (Exception ex) {
+                Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            Item item = (Item) FileOperations.findDataByCode(itemCode, itemList);
             
-            Supplier supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            
             PurchaseItem purchaseItem = new PurchaseItem(item, supplier, quantity);
             itemsRequestedList.add(purchaseItem);
         }

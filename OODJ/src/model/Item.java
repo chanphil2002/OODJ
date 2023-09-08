@@ -7,6 +7,8 @@ package model;
 import controller.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.Supplier.*;
 /**
  *
@@ -132,7 +134,13 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
             List<Supplier> itemSupplierList = new ArrayList<>();
             List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
             for(String s : supplierQuantityPairs){
-                Supplier supplier = (Supplier) FileOperations.findDataByCode(s, supplierList);
+                Supplier supplier = null;
+                try {
+                    supplier = (Supplier) FileOperations.findDataByCode(s, supplierList);
+                } catch (Exception ex) {
+                    Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 itemSupplierList.add(supplier);
             }
             
