@@ -26,25 +26,19 @@ public class PurchaseManagerMenu {
         switch (option){
             case 1:
                 DisplayEntry.displayItemsEntry();
-                menu();
-                break;
-                
+                break;       
             case 2:
                 DisplayEntry.displaySupplierEntry();
-                menu();
                 break;
-           
             case 3:
                 DisplayEntry.displayPREntry();
-                menu();
                 break;
             case 4:
                 managePOMenu();
                 break;
             case 5:
                 break;
-        }             
-                
+            }                      
         }
 
     private void managePOMenu() {
