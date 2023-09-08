@@ -22,9 +22,20 @@ public class EditEntry {
     public static void editSupplierEntry(){
         DisplayEntry.displaySupplierEntry();
         List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
-        System.out.print("Enter Supplier ID to Edit: ");
-        String supplierID = scanner.nextLine();
-        Supplier foundSupplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+        Supplier foundSupplier = null;
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.print("Enter Supplier ID to Edit: ");
+                String supplierID = scanner.nextLine();
+                foundSupplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
+            } catch (Exception Exception) {
+                System.out.println("Invalid Supplier");
+            }
+        } while (!success);
+        
+        
         
         System.out.print("Enter Number: 1. Edit | 2. Delete: ");
         int choice = scanner.nextInt();
@@ -58,9 +69,20 @@ public class EditEntry {
     public static void editItemEntry(){
         DisplayEntry.displayItemsEntry();
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-        System.out.print("Enter Item ID: ");
-        String itemID = scanner.nextLine();
-        Item foundItem = (Item) FileOperations.findDataByCode(itemID, itemList);
+        Item foundItem = null;
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.print("Enter Item ID: ");
+                String itemID = scanner.nextLine();
+                foundItem = (Item) FileOperations.findDataByCode(itemID, itemList);
+            } catch (Exception Exception) {
+                System.out.println("Invalid item.");
+                success = false;
+            }
+        } while (!success);
+        
         System.out.print("Enter Number: 1. Edit | 2. Delete: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -110,9 +132,20 @@ public class EditEntry {
         DisplayEntry.displaySalesEntry();
         List<Sales> salesList = FileOperations.readObjectsFromFile("resources/data/sales.txt", new Sales());
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-        System.out.print("Enter Sales ID: ");
-        String salesID = scanner.nextLine();
-        Sales foundSales = (Sales) FileOperations.findDataByCode(salesID, salesList);
+        Sales foundSales = null;
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.print("Enter Sales ID: ");
+                String salesID = scanner.nextLine();
+                foundSales = (Sales) FileOperations.findDataByCode(salesID, salesList);
+            } catch (Exception Exception) {
+                System.out.println("Invalid Sales");
+                success = false;
+            }
+        } while (!success);
+        
         
         System.out.print("Enter Number: 1. Edit | 2. Delete: ");
         int choice = scanner.nextInt();
@@ -187,9 +220,20 @@ public class EditEntry {
     public static void editPREntry(){
         DisplayEntry.displayPREntry();
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        System.out.print("Enter Purchase Requisition ID: ");
-        String prID = scanner.nextLine();
-        PurchaseRequisition foundPR = (PurchaseRequisition) FileOperations.findDataByCode(prID, prList);
+        PurchaseRequisition foundPR = null;
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.print("Enter Purchase Requisition ID: ");
+                String prID = scanner.nextLine();
+                foundPR = (PurchaseRequisition) FileOperations.findDataByCode(prID, prList);
+            } catch (Exception Exception) {
+                System.out.println("Invalid Purchase Requisition");
+                success = false;
+            }
+        } while (!success);
+        
         
         System.out.print("Enter Number: 1. Edit | 2. Delete: ");
         int choice = scanner.nextInt();
@@ -250,9 +294,20 @@ public class EditEntry {
         DisplayEntry.displayPOEntry();
         List<PurchaseOrder> poList = FileOperations.readObjectsFromFile("resources/data/purchaseorder.txt", new PurchaseOrder());
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-        System.out.print("Enter Purchase Order ID: ");
-        String poID = scanner.nextLine();
-        PurchaseOrder foundPO = (PurchaseOrder) FileOperations.findDataByCode(poID, poList);
+        PurchaseOrder foundPO = null;
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.print("Enter Purchase Order ID: ");
+                String poID = scanner.nextLine();
+                foundPO = (PurchaseOrder) FileOperations.findDataByCode(poID, poList);
+            } catch (Exception Exception) {
+                System.out.println("Invalid Purchase Order");
+                success = false;
+            }
+        } while (!success);
+        
         
         System.out.println("");
         System.out.println("Date: " + foundPO.getDate());
