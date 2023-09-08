@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package main;
-
+import auth.Login;
 /**
  *
  * @author pc
@@ -21,17 +21,17 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CreateEntry.createSupplierEntry();
-        CreateEntry.createItemEntry();
-        CreateEntry.createSalesEntry();
-        CreateEntry.createPREntry();
-        CreateEntry.createPOEntry();
+//        CreateEntry.createSupplierEntry();
+//        CreateEntry.createItemEntry();
+//        CreateEntry.createSalesEntry();
+//        CreateEntry.createPREntry();
+//        CreateEntry.createPOEntry();
         
-//        DisplayEntry.displaySupplierEntry();
-//        DisplayEntry.displayItemsEntry();
-//        DisplayEntry.displaySalesEntry();
-//        DisplayEntry.displayPREntry();
-//        DisplayEntry.displayPOEntry();
+        DisplayEntry.displaySupplierEntry();
+        DisplayEntry.displayItemsEntry();
+        DisplayEntry.displaySalesEntry();
+        DisplayEntry.displayPREntry();
+        DisplayEntry.displayPOEntry();
         
 //        EditEntry.editSupplierEntry();
 //        EditEntry.editItemEntry();
