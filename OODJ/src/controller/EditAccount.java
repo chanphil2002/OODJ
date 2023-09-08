@@ -26,28 +26,32 @@ public class EditAccount {
         List<SalesManager> SMList = FileOperations.readObjectsFromFile("resources/data/salesmanager.txt", new SalesManager());
         System.out.print("Enter User ID to Edit Password: ");
         String userID = scanner.nextLine();
-        User<Admin> foundAdmin = (User<Admin>) FileOperations.findDataByCode(userID, AdminList);
-        User<PurchaseManager> foundPM = (User<PurchaseManager>) FileOperations.findDataByCode(userID, PMList);
-        User<SalesManager> foundSM = (User<SalesManager>) FileOperations.findDataByCode(userID, SMList);
-        User foundUser = (foundAdmin != null) ? foundAdmin : (foundPM != null) ? foundPM : foundSM;
-        if (foundUser != null) {
-            System.out.print("Change Password: (or Press Enter to skip): ");
-            String password = scanner.nextLine();
-            if(password.isEmpty()){
-                System.out.println("You didn't change the password.");
-            } else {
-                foundUser.setPassword(password);
-            }
+        try {
+            User<Admin> foundAdmin = (User<Admin>) FileOperations.findDataByCode(userID, AdminList);
+            User<PurchaseManager> foundPM = (User<PurchaseManager>) FileOperations.findDataByCode(userID, PMList);
+            User<SalesManager> foundSM = (User<SalesManager>) FileOperations.findDataByCode(userID, SMList);
+            User foundUser = (foundAdmin != null) ? foundAdmin : (foundPM != null) ? foundPM : foundSM;
+            if (foundUser != null) {
+                System.out.print("Change Password: (or Press Enter to skip): ");
+                String password = scanner.nextLine();
+                if(password.isEmpty()){
+                    System.out.println("You didn't change the password.");
+                } else {
+                    foundUser.setPassword(password);
+                }
 
-            if (foundAdmin != null) {
-                FileOperations.updateObjectInFile((Admin) foundAdmin, foundUser.getFilePath(), AdminList);
-            } else if (foundPM != null) {
-                FileOperations.updateObjectInFile((PurchaseManager) foundPM, foundPM.getFilePath(), PMList);
-            } else if (foundSM != null) {
-                FileOperations.updateObjectInFile((SalesManager) foundSM, foundSM.getFilePath(), SMList);
+                if (foundAdmin != null) {
+                    FileOperations.updateObjectInFile((Admin) foundAdmin, foundUser.getFilePath(), AdminList);
+                } else if (foundPM != null) {
+                    FileOperations.updateObjectInFile((PurchaseManager) foundPM, foundPM.getFilePath(), PMList);
+                } else if (foundSM != null) {
+                    FileOperations.updateObjectInFile((SalesManager) foundSM, foundSM.getFilePath(), SMList);
+                }
             }
-
-            }
+        } catch (Exception Exception) {
+            System.out.println("Error with file reading."); //shouldn't happen on the user's side
+        }
+        
         }
     
     
