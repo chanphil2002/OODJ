@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -146,7 +148,13 @@ public class Sales implements IFileFormattable, IDataParser<Sales>, IDataSearcha
             
             String itemCode = pairParts[0];
             int quantity = Integer.parseInt(pairParts[1]);
-            Item item = (Item) FileOperations.findDataByCode(itemCode, itemList);
+            Item item = null;
+            try {
+                item = (Item) FileOperations.findDataByCode(itemCode, itemList);
+            } catch (Exception ex) {
+                Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             itemsSold.put(item, quantity);
 
         }
