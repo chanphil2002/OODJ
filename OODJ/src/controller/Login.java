@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import users.*;
+import view.AdminMenu;
+import view.PurchaseManagerMenu;
+import view.SalesManagerMenu;
 
 public class Login {
     private static final String userFile = "users.txt";
@@ -34,7 +37,17 @@ public class Login {
             
             if (matchedUser != null) {
                 loggingIn = false;
-                matchedUser.menu(); // Call the menu from the role user is from
+                if (matchedUser instanceof Admin) {
+                    AdminMenu adminMenu = new AdminMenu();
+                    adminMenu.menu();
+                } else if (matchedUser instanceof PurchaseManager) {
+                    PurchaseManagerMenu purchaseManagerMenu = new PurchaseManagerMenu();
+                    purchaseManagerMenu.menu();
+                } else if (matchedUser instanceof SalesManager) {
+                    SalesManagerMenu salesManagerMenu = new SalesManagerMenu();
+                    salesManagerMenu.menu();
+                }
+
             } else {
                 System.out.println("Login failed. Invalid username or password.");
                 System.out.print("Do you want to retry? (yes/no): ");
