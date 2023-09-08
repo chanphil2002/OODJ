@@ -3,13 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package main;
-import auth.Login;
-/**
- *
- * @author pc
- */
-
-import controller.FileOperations;
 import controller.*;
 import model.*;
 import java.util.ArrayList;
@@ -38,6 +31,9 @@ public class main {
 //        EditEntry.editSalesEntry();
 //        EditEntry.editPREntry();
 //        EditEntry.editPOEntry();
+//        EditAccount.displayUsers();
+
+//        Login.loginInterface();
     }
     
 

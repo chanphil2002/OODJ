@@ -1,4 +1,4 @@
-package auth;
+package controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,7 +50,35 @@ public class Login {
 
     private static List<User> loadUsers() {
         List<User> users = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Admin.filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String userID = parts[0];
+                    String password = parts[1];
+                    String role = parts[2];
+                    users.add(UserFactory.createUser(password, role));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(PurchaseManager.filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String userID = parts[0];
+                    String password = parts[1];
+                    String role = parts[2];
+                    users.add(UserFactory.createUser(password, role));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(SalesManager.filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");

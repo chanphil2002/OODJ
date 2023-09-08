@@ -56,11 +56,12 @@ public class FileOperations {
     }
     
     //Search Data based on Code
-    public static IDataSearchable findDataByCode(String code, List<? extends IDataSearchable> dataList){
+    public static IDataSearchable findDataByCode(String code, List<? extends IDataSearchable> dataList) throws Exception{
         for(IDataSearchable data : dataList){
             if(data.getCode().equals(code)){
                 return data;
             }
+        throw new Exception("Data not found");
         }
 
         return null;
