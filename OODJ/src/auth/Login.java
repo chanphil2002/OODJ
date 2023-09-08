@@ -58,7 +58,7 @@ public class Login {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(UserFactory.createUser(userID, password, role));
+                    users.add(UserFactory.createUser(password, role));
                 }
             }
         } catch (IOException e) {
@@ -69,15 +69,3 @@ public class Login {
 }
 
 
-class UserFactory {
-    public static User createUser(String userID, String password, String role){
-        if ("Admin".equals(role)){
-            return new Admin(userID, password);
-        }   else if ("Purchase Manager".equals(role)) {
-            return new PurchaseManager(userID, password);
-        }   else if ("Sales Manager".equals(role)) {
-            return new SalesManager(userID, password);
-        }
-        return null;
-    }
-}

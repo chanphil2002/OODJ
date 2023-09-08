@@ -15,7 +15,7 @@ public class IdGenerator {
 
     public String generateID(String prefix) {
         String lastId = readLastIDFromFile();
-        int lastIdNumber = lastId.isEmpty() ? 0 : Integer.parseInt(lastId.substring(1));
+        int lastIdNumber = lastId.isEmpty() ? 0 : Integer.parseInt(lastId.substring(prefix.length()));
         int newIdNumber = lastIdNumber + 1;
         return prefix + String.format("%03d", newIdNumber);
     }

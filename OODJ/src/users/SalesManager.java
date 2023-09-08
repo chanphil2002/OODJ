@@ -4,16 +4,24 @@
  */
 package users;
 
+import controller.IdGenerator;
+
 /**
  *
  * @author pc
  */
 public class SalesManager extends User{
 
-    public SalesManager(String userID, String password) {
-        super(userID, password);
-        //TODO Auto-generated constructor stub
+    public SalesManager(String password) {
+        super(password);
+        super.userID = idGenerator.generateID("SM");
     }
+    private final String roleName = "Sales Manager";
+    private final String filePath = "resources/data/salesmanager.txt";
+    private final IdGenerator idGenerator = new IdGenerator(filePath);
 
-   
+    @Override
+    public String getRoleName() {
+        return roleName;
+    }
 }

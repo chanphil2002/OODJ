@@ -22,7 +22,7 @@ public class Supplier implements IFileFormattable, IDataParser<Supplier>, IDataS
     }
     
     public Supplier(String supplierName){
-        supplierID = idGenerator.generateID("D");
+        supplierID = idGenerator.generateID("SP");
         this.supplierName = supplierName;
         dataAvailable = true;
     } 

@@ -8,3 +8,6 @@ D007,Niko,true
 D008,Sigma,true
 D009,Ronald,true
 D010,Husein,true
+SP011, Tim,true
+SP012,Juliano,true
+SP013,Jam,true

@@ -26,12 +26,12 @@ public class main {
 //        CreateEntry.createSalesEntry();
 //        CreateEntry.createPREntry();
 //        CreateEntry.createPOEntry();
-        
+//        
         DisplayEntry.displaySupplierEntry();
-        DisplayEntry.displayItemsEntry();
-        DisplayEntry.displaySalesEntry();
-        DisplayEntry.displayPREntry();
-        DisplayEntry.displayPOEntry();
+//        DisplayEntry.displayItemsEntry();
+//        DisplayEntry.displaySalesEntry();
+//        DisplayEntry.displayPREntry();
+//        DisplayEntry.displayPOEntry();
         
 //        EditEntry.editSupplierEntry();
 //        EditEntry.editItemEntry();

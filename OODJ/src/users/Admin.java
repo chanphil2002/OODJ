@@ -4,19 +4,29 @@
  */
 package users;
 import auth.Login;
+import controller.FileOperations;
+import controller.IDataParser;
+import controller.IdGenerator;
 import java.util.ArrayList;
 import java.util.List;
+import model.Item;
+import view.OptionPicker;
 
-/**
- *
- * @author pc
- */
-public class Admin extends User{
-    
-    public Admin(String userID, String password) {
-        super(userID, password);
+public class Admin extends User<Admin>{
+    public Admin(){
+        super();
     }
-
+    
+    public Admin(String password) {
+        super(password);
+        super.userID = idGenerator.generateID("A");
+    }
+    
+    
+    private final String roleName = "Admin";
+    private final String filePath = "resources/data/admin.txt";
+    private final IdGenerator idGenerator = new IdGenerator(filePath);
+    
     /**
      * 
      */
@@ -29,7 +39,8 @@ public class Admin extends User{
         options.add("Manage Purchase Requisition");
         options.add("Change password");
         options.add("Log out");
-        int option = optionPicker(options);
+        int option;
+        option = OptionPicker.optionPicker(options);
         switch (option) {
             case 1:
                 manageUserMenu();
@@ -59,7 +70,7 @@ public class Admin extends User{
         options.add("Edit user role");
         options.add("Delete user");
         options.add("Return to admin menu");
-        int option = optionPicker(options);
+        int option = OptionPicker.optionPicker(options);
         switch (option) {
             case 1:
 
@@ -76,6 +87,46 @@ public class Admin extends User{
         }
         
     }
-    
+
+    @Override
+    public String getRoleName() {
+        return roleName;
+    }
+
+    @Override
+    public Admin parseData(String line){
+        String[] parts = line.split(",");
+        if (parts.length == 6) { // Assuming 2 attributes in the data
+            String userID = parts[0];
+            String password = parts[1];
+            String role = parts[2];
+
+            Admin admin = (Admin) FileOperations.findDataByCode(userID, adminList);
+
+            return new Item(itemCode, itemName, quantity, price, supplier, dataAvailable);
+        }
+        return null;
+    } 
+
+    @Override
+    public String formatForFile() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getCode() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean getDataAvailable() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setDataAvailable(boolean deleted) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+   
 }
 
