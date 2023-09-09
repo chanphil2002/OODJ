@@ -20,16 +20,14 @@ public class PurchaseManager extends User<PurchaseManager>{
         super.userID = idGenerator.generateID("PM");
     }
 
-    public PurchaseManager(String userID, String password, boolean dataAvailable) {
+    public PurchaseManager(String userID, String password) {
         super(password);
         super.userID = userID;
-        this.dataAvailable = dataAvailable;
     }
 
     private String roleName = "Purchase Manager";
     public final static String filePath = "resources/data/purchasemanager.txt";
     private final IdGenerator idGenerator = new IdGenerator(filePath);
-    private boolean dataAvailable;
    
     @Override
     public String getRoleName() {
@@ -47,9 +45,9 @@ public class PurchaseManager extends User<PurchaseManager>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            boolean dataAvailable = Boolean.parseBoolean(parts[3]);
-
-            return new PurchaseManager(userID, password, dataAvailable);
+            if (role == "Purchase Manager") {
+                return new PurchaseManager(userID, password);
+            }
         }
         return null;
     }
@@ -60,7 +58,7 @@ public class PurchaseManager extends User<PurchaseManager>{
     }
     @Override
     public boolean getDataAvailable() {
-        return dataAvailable;
+        return false;
     }
     @Override
     public void setDataAvailable(boolean deleted) {
@@ -69,6 +67,6 @@ public class PurchaseManager extends User<PurchaseManager>{
     }
     @Override
     public String getFilePath() {
-        return this.filePath;
+        return PurchaseManager.filePath;
     }
 }

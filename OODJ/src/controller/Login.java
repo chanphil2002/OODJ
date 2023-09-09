@@ -11,7 +11,6 @@ import view.PurchaseManagerMenu;
 import view.SalesManagerMenu;
 
 public class Login {
-    private static final String userFile = "users.txt";
     public static void loginInterface() {
         Scanner scanner = new Scanner(System.in);
         List<User> users = loadUsers();
@@ -67,11 +66,11 @@ public class Login {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 2) {
+                if (parts.length == 3) {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(UserFactory.createUser(password, role));
+                    users.add(UserFactory.createUser(userID, password, role));
                 }
             }
         } catch (IOException e) {
@@ -81,11 +80,11 @@ public class Login {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 2) {
+                if (parts.length == 3) {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(UserFactory.createUser(password, role));
+                    users.add(UserFactory.createUser(userID, password, role));
                 }
             }
         } catch (IOException e) {
@@ -95,11 +94,11 @@ public class Login {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 2) {
+                if (parts.length == 3) {
                     String userID = parts[0];
                     String password = parts[1];
                     String role = parts[2];
-                    users.add(UserFactory.createUser(password, role));
+                    users.add(UserFactory.createUser(userID, password, role));
                 }
             }
         } catch (IOException e) {

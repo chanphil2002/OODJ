@@ -3,15 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package users;
-import controller.FileOperations;
-import controller.IDataParser;
 import controller.IdGenerator;
-import controller.Login;
-
-import java.util.ArrayList;
-import java.util.List;
-import model.Item;
-import view.OptionPicker;
 
 public class Admin extends User<Admin>{
     public Admin() {
@@ -23,17 +15,15 @@ public class Admin extends User<Admin>{
         super.userID = idGenerator.generateID("A");
     }
     
-    public Admin(String userID, String password, boolean dataAvailable) {
+    public Admin(String userID, String password) {
         super(password);
         super.userID = userID;
-        this.dataAvailable = dataAvailable;
     }
     
 
     private String roleName = "Admin";
-    public final static String filePath = "resources/data/admin.txt";
+    public final static String filePath = "resources/data/Admin.txt";
     private final IdGenerator idGenerator = new IdGenerator(filePath);
-    private boolean dataAvailable;
     
     
     
@@ -50,16 +40,16 @@ public class Admin extends User<Admin>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            boolean dataAvailable = Boolean.parseBoolean(parts[3]);
-
-            return new Admin(userID, password, dataAvailable);
+            if (role == "Admin") {
+                return new Admin(userID, password);
+            }
         }
         return null;
     }
 
     @Override
     public boolean getDataAvailable() {
-        return dataAvailable;
+        return false;
     }
 
     @Override
@@ -80,7 +70,7 @@ public class Admin extends User<Admin>{
 
     @Override
     public String getFilePath() {
-        return this.filePath;
+        return Admin.filePath;
     }
    
 }

@@ -19,16 +19,14 @@ public class SalesManager extends User<SalesManager>{
         super.userID = idGenerator.generateID("SM");
     }
 
-    public SalesManager(String userID, String password, boolean dataAvailable) {
+    public SalesManager(String userID, String password) {
         super(password);
         super.userID = userID;
-        this.dataAvailable = dataAvailable;
     }
 
     private String roleName = "Sales Manager";
     public final static String filePath = "resources/data/salesmanager.txt";
     private final IdGenerator idGenerator = new IdGenerator(filePath);
-    private boolean dataAvailable;
 
     @Override
     public String getRoleName() {
@@ -48,9 +46,9 @@ public class SalesManager extends User<SalesManager>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            boolean dataAvailable = Boolean.parseBoolean(parts[3]);
-
-            return new SalesManager(userID, password, dataAvailable);
+            if (role == "Sales Manager") {
+               return new SalesManager(userID, password); 
+            }
         }
         return null;
     }
@@ -63,7 +61,7 @@ public class SalesManager extends User<SalesManager>{
 
     @Override
     public boolean getDataAvailable() {
-        return dataAvailable;
+        return false;
     }
 
     @Override
@@ -73,6 +71,6 @@ public class SalesManager extends User<SalesManager>{
     }
     @Override
     public String getFilePath() {
-        return this.filePath;
+        return SalesManager.filePath;
     }
 }
