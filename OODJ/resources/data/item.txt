@@ -1,3 +1,6 @@
 I001,Chocolate Chips,10,5.0,[SP011],true
 I002,Sunflower Seeds,10,3.0,[SP012:SP013],true
 I003,Popcorn,10,4.50,[SP011:SP001],true
+I004,Lolipop,89,2.3,[SP001],true
+I005,Yogurt,9,10.0,[SP001],true
+I006,Sugarcane,17,3.4,[SP001:SP011:SP010],true

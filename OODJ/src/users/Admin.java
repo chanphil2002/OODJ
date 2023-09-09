@@ -11,7 +11,6 @@ public class Admin extends User<Admin>{
     }
     
     public Admin(String password) {
-        super(password);
         super.userID = idGenerator.generateID("A");
     }
     
@@ -27,7 +26,7 @@ public class Admin extends User<Admin>{
     
     
     
-
+    
     @Override
     public String getRoleName() {
         return roleName;

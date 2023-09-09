@@ -28,6 +28,8 @@ public class Login {
 
             
             for (User user : users) {
+                System.out.println(user.getUserID());
+                System.out.println(user.getPassword());
                 if (user.getUserID().equals(inputUserID) && user.getPassword().equals(inputPassword)) {
                     matchedUser = user;
                     break;

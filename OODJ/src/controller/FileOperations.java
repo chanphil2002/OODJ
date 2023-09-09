@@ -61,10 +61,9 @@ public class FileOperations {
             if(data.getCode().equals(code)){
                 return data;
             }
-        throw new Exception("Data not found");
         }
-
-        return null;
+        throw new Exception("Data not found");
+        
     }
    
    

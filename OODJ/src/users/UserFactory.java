@@ -22,10 +22,7 @@ public class UserFactory {
     public static User createUser(String password, String role){
         if ("Admin".equals(role)){
             return new Admin(password);
-        }   else if ("Purchase Manager".equals(role)) {
-            return new PurchaseManager(password);
-        }   else if ("Sales Manager".equals(role)) {
-            return new SalesManager(password);
+
         }
         return null;
     }
