@@ -25,38 +25,29 @@ public class SalesManagerMenu {
         options.add("Manage Supplier Entry");
         options.add("Manage Sales Entry");
         options.add("Manage Purchase Requisition");
-        options.add("List of Purchaser Orders");
+        options.add("Display Purchase Orders");
         options.add("Log out");
         int option;
         option = OptionPicker.optionPicker(options);
         switch (option){
             case 1:
-                manageItemMenu();
-                
+                manageItemMenu(); 
                 break;
-                
             case 2:
                 manageSupplierMenu();
                 break;
-           
             case 3:
                manageSEMenu();
                 break;
             case 4:
                 managePRMenu();
                 break;
-
             case 5:
                 DisplayEntry.displayPOEntry();
-             
                 break;
             case 6:
                 break;
-              
-
-
-        }
-                
+            }
         }      
      private void manageItemMenu() {
         DisplayEntry.displayItemsEntry();

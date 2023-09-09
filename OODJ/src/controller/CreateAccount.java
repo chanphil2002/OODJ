@@ -18,8 +18,6 @@ public class CreateAccount {
     private static Scanner scanner = new Scanner(System.in);
     
     public static void CreateAccount() {
-        System.out.println("Enter New Username: ");
-        String username = scanner.nextLine();
         System.out.println("Enter Password: ");
         String password = scanner.nextLine();
         System.out.println("Select a role for the user:");

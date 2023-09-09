@@ -15,11 +15,10 @@ public class PurchaseManagerMenu {
     public void menu(){
         System.out.println("Puchase Manager Menu");
         List<String> options  = new ArrayList<>();
-        options.add("List of items");
-        options.add("List of suppliers");
-        options.add("Display requisition");
-        options.add("Generate purchase order");
-        options.add ("List of purchaser order");
+        options.add("Display items");
+        options.add("Display suppliers");
+        options.add("Display purchase requisition");
+        options.add("Manage purchase order");
         options.add("Log out");
         int option;
         option = OptionPicker.optionPicker(options);
