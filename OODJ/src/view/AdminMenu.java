@@ -119,6 +119,8 @@ public class AdminMenu {
     private void managePOMenu() {
         DisplayEntry.displayPOEntry();
         List<String> options = new ArrayList<String>();
+        options.add("Create Purchase Order");
+        options.add("Edit/Delete Purchase Order");
         options.add("Return to admin menu");
         int option = OptionPicker.optionPicker(options);
         switch(option){
