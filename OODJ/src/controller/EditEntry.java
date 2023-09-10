@@ -5,6 +5,8 @@
 package controller;
 
 import model.*;
+import view.OptionPicker;
+
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -37,11 +39,12 @@ public class EditEntry {
         } while (!success);
         
         
-        
-        System.out.print("Enter Number: 1. Edit | 2. Delete: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch(choice){
+        List<String> options = new ArrayList<String>();
+        options.add("Edit");
+        options.add("Delete");
+        options.add("Return to previous menu");
+        int option = OptionPicker.optionPicker(options);
+        switch(option){
             case 1:
                 System.out.println("");
                 System.out.println("Current Supplier ID " + foundSupplier.getCode());
@@ -62,6 +65,7 @@ public class EditEntry {
                     foundSupplier.setDataAvailable(false);
                 }
                 break;
+            default:
         }
         FileOperations.updateObjectInFile(foundSupplier, foundSupplier.getFilePath(),supplierList);
         
@@ -83,11 +87,12 @@ public class EditEntry {
                 success = false;
             }
         } while (!success);
-        
-        System.out.print("Enter Number: 1. Edit | 2. Delete: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch(choice){
+        List<String> options = new ArrayList<String>();
+        options.add("Edit");
+        options.add("Delete");
+        options.add("Return to previous menu");
+        int option = OptionPicker.optionPicker(options);
+        switch(option){
             case 1:
                 System.out.println("");
                 System.out.printf("%-17s %-25s %-25s %-20s%n", "Current Item ID |", "Current Item Name       |", "Current Item Quantity |", "Current Item Price ");
@@ -140,8 +145,8 @@ public class EditEntry {
                     foundItem.setDataAvailable(false);
                 }
                 break;
-        }
-        
+            default:
+        } 
         FileOperations.updateObjectInFile(foundItem, foundItem.getFilePath(),itemList);
     }
     
@@ -162,12 +167,12 @@ public class EditEntry {
                 success = false;
             }
         } while (!success);
-        
-        //TODO: swap these for optionpicker
-        System.out.print("Enter Number: 1. Edit | 2. Delete: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch(choice){
+        List<String> options = new ArrayList<String>();
+        options.add("Edit");
+        options.add("Delete");
+        options.add("Return to previous menu");
+        int option = OptionPicker.optionPicker(options);
+        switch(option){
             case 1:
                 System.out.println("");
                 System.out.println("Date: " + foundSales.getDate());
@@ -238,6 +243,7 @@ public class EditEntry {
                     foundSales.setDataAvailable(false);
                 }
                 break;
+            default:
         }
         FileOperations.updateObjectInFile(foundSales, foundSales.getFilePath(),salesList);
     }
@@ -258,12 +264,12 @@ public class EditEntry {
                 success = false;
             }
         } while (!success);
-        
-        
-        System.out.print("Enter Number: 1. Edit | 2. Delete: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch(choice){
+        List<String> options = new ArrayList<String>();
+        options.add("Edit");
+        options.add("Delete");
+        options.add("Return to previous menu");
+        int option = OptionPicker.optionPicker(options);
+        switch(option){
             case 1:
                 System.out.println("");
                 System.out.println("Date: " + foundPR.getDate());
@@ -285,7 +291,6 @@ public class EditEntry {
                             break;
                         }
                     }
-                    
                     if (selected != null) {
                         System.out.println("Change Quantity to Request (or press Enter to skip):");
                         do {
