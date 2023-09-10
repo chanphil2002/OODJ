@@ -45,7 +45,7 @@ public class AdminMenu {
                 manageSupplierMenu();
                 break;
             case 7:
-                //Do nothing here because it will simply proceed back to the login loop
+                Login.loginInterface();
                 break;     
         }
     }

@@ -7,6 +7,8 @@ package view;
 import controller.CreateEntry;
 import controller.DisplayEntry;
 import controller.EditEntry;
+import controller.Login;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class PurchaseManagerMenu {
                 managePOMenu();
                 break;
             case 5:
+                Login.loginInterface();
                 break;
             }                      
         }

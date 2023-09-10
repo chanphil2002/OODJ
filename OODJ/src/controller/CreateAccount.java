@@ -27,14 +27,15 @@ public class CreateAccount {
         String password = scanner.nextLine();
         switch (option) {
             case 1:
-                FileOperations.writeObjectToFile(new PurchaseManager(password), PurchaseManager.filePath);
+                PurchaseManager PM = new PurchaseManager(password);
+                FileOperations.writeObjectToFile(PM, PurchaseManager.filePath);
+                System.out.println("User " + PM.getCode() + " has been created.");
                 break;
             case 2:
-                FileOperations.writeObjectToFile(new SalesManager(password), SalesManager.filePath);
+                SalesManager SM = new SalesManager(password);
+                FileOperations.writeObjectToFile(SM, SalesManager.filePath);
+                System.out.println("User " + SM.getCode() + " has been created.");
                 break;
         }
-        System.out.println("User has been created.");
-
-        
     }
 }            

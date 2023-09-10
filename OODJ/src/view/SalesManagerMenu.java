@@ -8,6 +8,8 @@ package view;
 import controller.CreateEntry;
 import controller.DisplayEntry;
 import controller.EditEntry;
+import controller.Login;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class SalesManagerMenu {
                 DisplayEntry.displayPOEntry();
                 break;
             case 6:
+                Login.loginInterface();
                 break;
             }
         }      
