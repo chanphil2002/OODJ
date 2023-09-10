@@ -35,8 +35,7 @@ public class PurchaseManager extends User<PurchaseManager>{
     }
     @Override
     public String formatForFile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'formatForFile'");
+        return userID + "," + getPassword() + ",Purchase Manager";
     }
     @Override
     public PurchaseManager parseData(String line) {
@@ -45,7 +44,7 @@ public class PurchaseManager extends User<PurchaseManager>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            if (role == "Purchase Manager") {
+            if ("Purchase Manager".equals(role)) {
                 return new PurchaseManager(userID, password);
             }
         }
@@ -53,12 +52,11 @@ public class PurchaseManager extends User<PurchaseManager>{
     }
     @Override
     public String getCode() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCode'");
+        return userID;
     }
     @Override
     public boolean getDataAvailable() {
-        return false;
+        return true;
     }
     @Override
     public void setDataAvailable(boolean deleted) {

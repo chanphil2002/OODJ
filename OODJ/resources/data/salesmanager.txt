@@ -1,1 +1,2 @@
 SM001,BHio9,Sales Manager
+SM002,daikin,Sales Manager

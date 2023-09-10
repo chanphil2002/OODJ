@@ -4,6 +4,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,53 +20,73 @@ public class EditAccount {
 
     public static void editUsers() {
         displayUsers();
-        List<User> UserList = null;
-        UserList.add(0, null);
-        List<Admin> AdminList = FileOperations.readObjectsFromFile("resources/data/admin.txt", new Admin());
-        List<PurchaseManager> PMList = FileOperations.readObjectsFromFile("resources/data/purchasemanager.txt", new PurchaseManager());
-        List<SalesManager> SMList = FileOperations.readObjectsFromFile("resources/data/salesmanager.txt", new SalesManager());
+        //List<User> UserList = new ArrayList<User>();
+        //UserList.add(0, null);
+        List<Admin> AdminList = FileOperations.readObjectsFromFile(Admin.filePath, new Admin());
+        List<PurchaseManager> PMList = FileOperations.readObjectsFromFile(PurchaseManager.filePath, new PurchaseManager());
+        List<SalesManager> SMList = FileOperations.readObjectsFromFile(SalesManager.filePath, new SalesManager());
         System.out.print("Enter User ID to Edit Password: ");
         String userID = scanner.nextLine();
+        User<Admin> foundAdmin = null;
+        User<PurchaseManager> foundPM = null;
+        User<SalesManager> foundSM = null;
         try {
-            User<Admin> foundAdmin = (User<Admin>) FileOperations.findDataByCode(userID, AdminList);
-            User<PurchaseManager> foundPM = (User<PurchaseManager>) FileOperations.findDataByCode(userID, PMList);
-            User<SalesManager> foundSM = (User<SalesManager>) FileOperations.findDataByCode(userID, SMList);
-            User foundUser = (foundAdmin != null) ? foundAdmin : (foundPM != null) ? foundPM : foundSM;
-            if (foundUser != null) {
-                System.out.print("Change Password: (or Press Enter to skip): ");
-                String password = scanner.nextLine();
-                if(password.isEmpty()){
-                    System.out.println("You didn't change the password.");
-                } else {
-                    foundUser.setPassword(password);
-                }
-
-                if (foundAdmin != null) {
-                    FileOperations.updateObjectInFile((Admin) foundAdmin, foundUser.getFilePath(), AdminList);
-                } else if (foundPM != null) {
-                    FileOperations.updateObjectInFile((PurchaseManager) foundPM, foundPM.getFilePath(), PMList);
-                } else if (foundSM != null) {
-                    FileOperations.updateObjectInFile((SalesManager) foundSM, foundSM.getFilePath(), SMList);
-                }
-            }
-        } catch (Exception Exception) {
-            System.out.println("Error with file reading."); //shouldn't happen on the user's side
+            foundAdmin = (User<Admin>) FileOperations.findDataByCode(userID, AdminList);
+        } catch (Exception e){
+            //no admins matches
         }
+        try {
+            foundPM = (User<PurchaseManager>) FileOperations.findDataByCode(userID, PMList);
+        } catch (Exception e){
+            //no PM matches
+        }
+        try {
+            foundSM = (User<SalesManager>) FileOperations.findDataByCode(userID, SMList);
+        } catch (Exception e){
+            //no SM matches
+        }
+        User foundUser = (foundAdmin != null) ? foundAdmin : (foundPM != null) ? foundPM : foundSM;
+        if (foundUser != null) {
+            System.out.print("Change Password: (or Press Enter to skip): ");
+            String password = scanner.nextLine();
+            if(password.isEmpty()){
+                System.out.println("You didn't change the password.");
+            } else {
+                foundUser.setPassword(password);
+            }
+
+            if (foundAdmin != null) {
+                FileOperations.updateObjectInFile((Admin) foundAdmin, foundUser.getFilePath(), AdminList);
+                System.out.println("1");
+            } else if (foundPM != null) {
+                FileOperations.updateObjectInFile((PurchaseManager) foundPM, foundPM.getFilePath(), PMList);
+                System.out.println("2");
+            } else if (foundSM != null) {
+                FileOperations.updateObjectInFile((SalesManager) foundSM, foundSM.getFilePath(), SMList);
+                System.out.println("3");
+            }
+        }
+        
         
         }
     
     
     
     public static void displayUsers () {
-        List<Admin> AdminList = FileOperations.readObjectsFromFile("resources/data/admin.txt", new Admin());
-        List<PurchaseManager> PMList = FileOperations.readObjectsFromFile("resources/data/purchasemanager.txt", new PurchaseManager());
-        List<SalesManager> SMList = FileOperations.readObjectsFromFile("resources/data/salesmanager.txt", new SalesManager());
+        List<Admin> AdminList = FileOperations.readObjectsFromFile(Admin.filePath, new Admin());
+        List<PurchaseManager> PMList = FileOperations.readObjectsFromFile(PurchaseManager.filePath, new PurchaseManager());
+        List<SalesManager> SMList = FileOperations.readObjectsFromFile(SalesManager.filePath, new SalesManager());
         
         System.out.printf("%-17s %-20s%n", "User ID   |", "Role           |   ");
-        for(User u : AdminList){
-            if(u.getDataAvailable()==true){
-                System.out.printf("%-17s %-20s%n", u.getCode(), u.getRoleName());
-            }
+        for(Admin u : AdminList){
+            System.out.printf("%-17s %-20s%n", u.getCode(), u.getRoleName());
         }
+        for(PurchaseManager u : PMList){
+            System.out.printf("%-17s %-20s%n", u.getCode(), u.getRoleName());
+        }
+        for(SalesManager u : SMList){
+            System.out.printf("%-17s %-20s%n", u.getCode(), u.getRoleName());
+        }
+
     }
 }

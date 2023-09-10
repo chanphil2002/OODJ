@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package users;
+import controller.IFileStatus;
 import controller.IdGenerator;
 
 public class Admin extends User<Admin>{
@@ -39,7 +40,7 @@ public class Admin extends User<Admin>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            if (role == "Admin") {
+            if ("Admin".equals(role)) {
                 return new Admin(userID, password);
             }
         }
@@ -48,17 +49,17 @@ public class Admin extends User<Admin>{
 
     @Override
     public boolean getDataAvailable() {
-        return false;
+        return true;
     }
 
     @Override
     public String formatForFile() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return userID + "," + getPassword() + ",Admin";
     }
 
     @Override
     public String getCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return userID;
     }
 
 

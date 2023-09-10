@@ -35,8 +35,7 @@ public class SalesManager extends User<SalesManager>{
 
     @Override
     public String formatForFile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'formatForFile'");
+        return userID + "," + getPassword() + ",Sales Manager";
     }
 
     @Override
@@ -46,7 +45,7 @@ public class SalesManager extends User<SalesManager>{
             String userID = parts[0];
             String password = parts[1];
             String role = parts[2];
-            if (role == "Sales Manager") {
+            if ("Sales Manager".equals(role)) {
                return new SalesManager(userID, password); 
             }
         }
@@ -55,13 +54,12 @@ public class SalesManager extends User<SalesManager>{
 
     @Override
     public String getCode() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCode'");
+        return userID;
     }
 
     @Override
     public boolean getDataAvailable() {
-        return false;
+        return true;
     }
 
     @Override
