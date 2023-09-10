@@ -275,7 +275,7 @@ public class EditEntry {
                 for(PurchaseItem p : foundPR.getItemsRequested()){
                    
                     System.out.printf("%-17s %-25s %-25d %-20.2f%n", p.getItem().getCode(),
-                            p.getItem().getItemName(), p.getQuantityRequested(), p.getSupplier().getCode());
+                            p.getItem().getItemName(), p.getQuantityRequested(), p.getQuantityRequested() * p.getItem().getItemPrice());
                 }
                 System.out.println("Select Item ID in which you want to change.: (or Press Enter to skip)");
                 String itemPrompt = scanner.nextLine();
@@ -314,6 +314,7 @@ public class EditEntry {
                     System.out.println("You didn't make any changes this time.");
                     break;
                 }
+                break;
             case 2:
                 System.out.println("Are you sure you want to delete?");
                 String confirmDelete = scanner.nextLine();
@@ -350,7 +351,7 @@ public class EditEntry {
         System.out.printf("%-17s %-25s %-25s %-20s%n", "Item ID |", "Current Item Name       |", "Current Quantity Sold |", "Total ");
         for(PurchaseItem p : foundPO.getAssociatedRequisition().getItemsRequested()){
             System.out.printf("%-17s %-25s %-25d %-20.2f%n", p.getItem().getCode(),
-                    p.getItem().getItemName(), p.getQuantityRequested(),p.getSupplier().getCode());
+                    p.getItem().getItemName(), p.getQuantityRequested(),p.getQuantityRequested() * p.getItem().getItemPrice());
         }
         
         System.out.print("Purchase Order Completed (Y) / Purchase Order Cancelled (X): ");
@@ -379,10 +380,13 @@ public class EditEntry {
 
                 System.out.println("Purchase Order Completed. Your Item has Arrived!");
 
-            } if (!itemPrompt.isEmpty() && itemPrompt.equalsIgnoreCase("x")) {
+            } 
+            
+            if (!itemPrompt.isEmpty() && itemPrompt.equalsIgnoreCase("x")) {
                 foundPO.setStatus(PurchaseStatus.CANCELLED);
                 System.out.println("Purchase Order Cancelled. Please Raise Requisition Again."); 
-            } if (itemPrompt.isEmpty()) {
+            } 
+            if (itemPrompt.isEmpty()) {
                 System.out.println("Purchase Order for " + foundPO.getCode() + " is still Pending.");
             }
         }

@@ -30,7 +30,7 @@ public class main {
 //        EditEntry.editItemEntry();
 //        EditEntry.editSalesEntry();
 //        EditEntry.editPREntry();
-//       EditEntry.editPOEntry();
+//        EditEntry.editPOEntry();
 //        EditAccount.displayUsers();
 
 //         EditAccount.displayUsers();

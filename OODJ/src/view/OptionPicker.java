@@ -22,26 +22,25 @@ public class OptionPicker {
             int inputNum = 0;
             try {
                 inputNum = Integer.parseInt(input);
-            } catch (Exception NumberFormatException) {
+                if (inputNum >= i || inputNum <= 0){//input out of range
+                    success = false;
+                    System.out.println("Check if your input is correct.");
+                }
+            } catch (NumberFormatException e) {
                 success = false;
                 System.out.println("Check if your input is correct.");
-            } 
-            if (inputNum >= i || inputNum <= 0){//input out of range
-                success = false;
-                System.out.println("Check if your input is correct.");
-            } 
+            }
 
             if (success){ //no input errors and input refers to an option
                 return inputNum;
             }
-            
         }
-        
-
     }
-
-
-
-
-
 }
+
+
+
+
+
+
+

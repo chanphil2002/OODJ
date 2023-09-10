@@ -67,7 +67,7 @@ public class CreateEntry {
         boolean continueEnteringSupplier = true;
         while (continueEnteringSupplier) {
             DisplayEntry.displaySupplierEntry();
-            System.out.println("Enter Supplier ID (Can be multiple Supplier): ");
+            System.out.println("Enter Supplier ID (Can be multiple Supplier, enter exit to continue): ");
             String supplierID = scanner.nextLine();
             
             if (supplierID.equalsIgnoreCase("exit")) {
@@ -148,7 +148,7 @@ public class CreateEntry {
         PurchaseRequisition PR = new PurchaseRequisition();
         List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
         List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
-        
+        DisplayEntry.displayItemsEntry();
         boolean continueEnteringPR = true;
         while (continueEnteringPR) {
             System.out.print("Enter Item Code (or type 'exit' to finish): ");
@@ -203,19 +203,20 @@ public class CreateEntry {
     
     public static void createPOEntry(){
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        boolean success = false;
         PurchaseRequisition foundPR = null;
+        boolean success = true;
         do {
             try {
+                success = true;
                 DisplayEntry.displayPREntry();
                 System.out.print("Select Purchase Requisition ID: ");
                 String PRID = scanner.nextLine();
                 foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
-                success = true;
-        }   catch (Exception Exception) {
-            success = false;
-            System.out.println("Please input a correct ID.");
-        }
+            } catch (Exception Exception) {
+                System.out.println("Please input a correct ID.");
+                scanner.nextLine();
+                success = false;
+            }
         } while (!success);
         System.out.println(foundPR.getCode());
         System.out.print("Do you want to accept this Purchase Requisition? (yes/no): ");
