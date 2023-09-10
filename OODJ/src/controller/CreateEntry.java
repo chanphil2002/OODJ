@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import static model.Supplier.*;
 /**
@@ -34,12 +35,34 @@ public class CreateEntry {
         System.out.println("Enter Item Name: ");
         item.setItemName(scanner.nextLine());
         
-        System.out.println("Enter Item quantity: ");
-        item.setItemQuantity(scanner.nextInt());
-        
-        System.out.println("Enter Item Price: ");
-        item.setPrice(scanner.nextFloat());
-        scanner.nextLine();
+        boolean success = true;
+        do {
+            try {
+                success = true;
+                System.out.println("Enter Item quantity: ");
+                item.setItemQuantity(scanner.nextInt());
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Integer, please try again.");
+                success = false;
+            }
+        } while(!success);
+        float price = 0;
+        do {
+            try {
+                success = true;
+                System.out.println("Enter Item Price: ");
+                price = scanner.nextFloat();
+                scanner.nextLine();
+                if (price < 0) {
+                    System.out.println("Please input a positive price.");
+                    success = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid number, please try again");
+                success = false;
+            }
+        } while(!success);
+        item.setPrice(price);
         
         boolean continueEnteringSupplier = true;
         while (continueEnteringSupplier) {
@@ -51,7 +74,6 @@ public class CreateEntry {
                 break;
             }
             Supplier supplier = null;
-            boolean success = true;
             try {
                 supplier = (Supplier) FileOperations.findDataByCode(supplierID, supplierList);
             } catch (Exception Exception) {
@@ -93,22 +115,27 @@ public class CreateEntry {
                     itemQuantity = foundItem.getItemQuantity();
                 }
             }
-            while(true){
-                System.out.println("Enter Quantity Sold: ");
-                int quantity = scanner.nextInt();
-                scanner.nextLine();
-                if(foundItem.getItemQuantity() < quantity || quantity == 0){
-                    System.out.println("Invalid quantity, please try again.");
-                } else {
-                    itemQuantity -= quantity;
-                    foundItem.setItemQuantity(itemQuantity);
-                    FileOperations.updateObjectInFile(foundItem, "resources/data/item.txt", itemList);
-                    sales.addItem(foundItem, quantity);
-                    salesAmount += Math.round(foundItem.getItemPrice() * quantity);
-                    break;
+            int quantity = 0;
+            do {
+                try {
+                    success = true;
+                    System.out.println("Enter Quantity Sold: ");
+                    quantity = scanner.nextInt();
+                    scanner.nextLine();
+                    if(foundItem.getItemQuantity() < quantity || quantity == 0){
+                        System.out.println("Invalid quantity, please try again.");
+                        success = false;
                 }
-            }
-            
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid quantity, please try again.");
+                    success = false;
+                }
+            } while (!success);
+            itemQuantity -= quantity;
+            foundItem.setItemQuantity(itemQuantity);
+            FileOperations.updateObjectInFile(foundItem, "resources/data/item.txt", itemList);
+            sales.addItem(foundItem, quantity);
+            salesAmount += Math.round(foundItem.getItemPrice() * quantity);
             sales.setTotalSalesAmount(salesAmount);
         }
         FileOperations.writeObjectToFile(sales, "resources/data/sales.txt");
@@ -162,19 +189,19 @@ public class CreateEntry {
     
     public static void createPOEntry(){
         List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
-        boolean validity = false;
+        boolean success = false;
         PurchaseRequisition foundPR = null;
         do {
             try {
                 System.out.print("Select Purchase Requisition ID: ");
                 String PRID = scanner.nextLine();
                 foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
-                validity = true;
+                success = true;
         }   catch (Exception Exception) {
-            validity = false;
+            success = false;
             System.out.println("Please input a correct ID.");
         }
-        } while (!validity);
+        } while (!success);
         System.out.println(foundPR.getCode());
         System.out.print("Do you want to accept this Purchase Requisition? (yes/no): ");
         String response = scanner.nextLine();
