@@ -4,8 +4,6 @@
  */
 package users;
 import controller.*;
-import java.io.*;
-import java.util.List;
 import java.util.Scanner;
 
 /**

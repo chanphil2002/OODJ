@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package users;
-import controller.IFileStatus;
 import controller.IdGenerator;
 
 public class Admin extends User<Admin>{
