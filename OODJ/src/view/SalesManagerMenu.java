@@ -46,6 +46,7 @@ public class SalesManagerMenu {
                 break;
             case 5:
                 DisplayEntry.displayPOEntry();
+                menu();
                 break;
             case 6:
                 Login.loginInterface();
