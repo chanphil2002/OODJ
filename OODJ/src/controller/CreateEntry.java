@@ -37,13 +37,16 @@ public class CreateEntry {
         
         boolean success = true;
         do {
+            success = true;
             try {
-                success = true;
+                
                 System.out.println("Enter Item quantity: ");
                 item.setItemQuantity(scanner.nextInt());
+                scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Integer, please try again.");
                 success = false;
+                scanner.nextLine();
             }
         } while(!success);
         float price = 0;
@@ -59,6 +62,7 @@ public class CreateEntry {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid number, please try again");
+                scanner.nextLine();
                 success = false;
             }
         } while(!success);
@@ -128,6 +132,7 @@ public class CreateEntry {
                 }
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid quantity, please try again.");
+                    scanner.nextLine();
                     success = false;
                 }
             } while (!success);
@@ -164,9 +169,20 @@ public class CreateEntry {
                 success = false;
             } finally {
                 if (success) {
-                    System.out.println("Enter Quantity Requested: ");
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
+                    int quantity = 0;
+                    do {
+                        success = true;
+                        try {
+                            System.out.println("Enter Quantity Requested: ");
+                            quantity = scanner.nextInt();
+                            scanner.nextLine(); // Consume the newline character
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid quantity. Please input the correct quantity.");
+                            scanner.nextLine();
+                            success = false;
+                        }
+                    } while (!success);
+                    
                     Supplier foundSupplier = null;
                     do { 
                         try {

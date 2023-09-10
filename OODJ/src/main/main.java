@@ -29,12 +29,12 @@ public class main {
 //        EditEntry.editSupplierEntry();
 //        EditEntry.editItemEntry();
 //        EditEntry.editSalesEntry();
-        EditEntry.editPREntry();
+//        EditEntry.editPREntry();
 //       EditEntry.editPOEntry();
 //        EditAccount.displayUsers();
 
 //         EditAccount.displayUsers();
-//       Login.loginInterface();
+       Login.loginInterface();
     }
     
 
