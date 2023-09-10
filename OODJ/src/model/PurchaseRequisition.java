@@ -29,7 +29,7 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
     private PurchaseStatus status;
     private boolean dataAvailable;
     
-    private final String filePath = "resources/data/purchaserequisition.txt";
+    public static final String filePath = "resources/data/purchaserequisition.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     
     public PurchaseRequisition(){
@@ -126,8 +126,8 @@ public class PurchaseRequisition implements IFileFormattable, IDataParser<Purcha
         String[] itemQuantityPairs = itemsStr.split("\\.");
         
         List<PurchaseItem> itemsRequestedList = new ArrayList<>();
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
-        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath, new Item());
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile(Supplier.filePath, new Supplier());
         
         for (String pair : itemQuantityPairs) {
             // Split each pair into item name and quantity

@@ -20,7 +20,7 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
     private int quantity;
     private float price;
     private List<Supplier> itemSupplierList;
-    private final String filePath = "resources/data/item.txt";
+    public static final String filePath = "resources/data/item.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     private boolean dataAvailable;
     
@@ -131,7 +131,7 @@ public class Item implements IFileFormattable, IDataParser<Item>, IDataSearchabl
             String[] supplierQuantityPairs = suppliersStr.split("\\:");
             
             List<Supplier> itemSupplierList = new ArrayList<>();
-            List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+            List<Supplier> supplierList = FileOperations.readObjectsFromFile(Supplier.filePath, new Supplier());
             for(String s : supplierQuantityPairs){
                 Supplier supplier = null;
                 try {

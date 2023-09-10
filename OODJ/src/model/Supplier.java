@@ -14,7 +14,7 @@ import java.util.List;
 public class Supplier implements IFileFormattable, IDataParser<Supplier>, IDataSearchable, IFileStatus{
     private String supplierID;
     private String supplierName;
-    private final String filePath = "resources/data/supplier.txt";
+    public static final String filePath = "resources/data/supplier.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     private boolean dataAvailable;
     

@@ -25,7 +25,7 @@ public class Sales implements IFileFormattable, IDataParser<Sales>, IDataSearcha
     private double totalSalesAmount;
     private boolean dataAvailable;
     
-    private final String filePath = "resources/data/sales.txt";
+    public static final String filePath = "resources/data/sales.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     
     public Sales(){
@@ -135,7 +135,7 @@ public class Sales implements IFileFormattable, IDataParser<Sales>, IDataSearcha
         
         Map<Item, Integer> itemsSold = new HashMap<>();
         
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath, new Item());
         for (String pair : itemQuantityPairs) {
             // Split each pair into item name and quantity
             String[] pairParts = pair.split(":");

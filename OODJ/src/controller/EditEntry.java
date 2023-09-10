@@ -24,7 +24,7 @@ public class EditEntry {
     
     public static void editSupplierEntry(){
         DisplayEntry.displaySupplierEntry();
-        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile(Supplier.filePath, new Supplier());
         Supplier foundSupplier = null;
         boolean success = true;
         do {
@@ -73,7 +73,7 @@ public class EditEntry {
     
     public static void editItemEntry(){
         DisplayEntry.displayItemsEntry();
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath, new Item());
         Item foundItem = null;
         boolean success = true;
         do {
@@ -152,8 +152,8 @@ public class EditEntry {
     
     public static void editSalesEntry(){
         DisplayEntry.displaySalesEntry();
-        List<Sales> salesList = FileOperations.readObjectsFromFile("resources/data/sales.txt", new Sales());
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+        List<Sales> salesList = FileOperations.readObjectsFromFile(Sales.filePath, new Sales());
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath, new Item());
         Sales foundSales = null;
         boolean success = true;
         do {
@@ -218,7 +218,7 @@ public class EditEntry {
                             
                             foundSales.getItemsSold().put(selected, newQuantitySold);
                             selected.setItemQuantity(selected.getItemQuantity() - changeInQuantity);
-                            FileOperations.updateObjectInFile(selected, "resources/data/item.txt", itemList);
+                            FileOperations.updateObjectInFile(selected, Item.filePath, itemList);
                             double newTotalSalesAmount = 0.0;
                             for (Map.Entry<Item, Integer> entry : foundSales.getItemsSold().entrySet()) {
                                 Item item = entry.getKey();
@@ -250,7 +250,7 @@ public class EditEntry {
     
     public static void editPREntry(){
         DisplayEntry.displayPREntry();
-        List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
+        List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile(PurchaseRequisition.filePath, new PurchaseRequisition());
         PurchaseRequisition foundPR = null;
         boolean success = true;
         do {
@@ -330,8 +330,8 @@ public class EditEntry {
     
     public static void editPOEntry(){
         DisplayEntry.displayPOEntry();
-        List<PurchaseOrder> poList = FileOperations.readObjectsFromFile("resources/data/purchaseorder.txt", new PurchaseOrder());
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt", new Item());
+        List<PurchaseOrder> poList = FileOperations.readObjectsFromFile(PurchaseOrder.filePath, new PurchaseOrder());
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath, new Item());
         PurchaseOrder foundPO = null;
         boolean success = true;
         do {

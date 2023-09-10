@@ -23,7 +23,7 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
     private PurchaseStatus status;
     private boolean dataAvailable;
     
-    private final String filePath = "resources/data/purchaseorder.txt";
+    public static final String filePath = "resources/data/purchaseorder.txt";
     private IdGenerator idGenerator = new IdGenerator(filePath);
     
     public PurchaseOrder(){
@@ -120,7 +120,7 @@ public class PurchaseOrder implements IFileFormattable, IDataParser<PurchaseOrde
         // Extract the items and quantities section (itemsStr)
         String itemsStr = parts[2];
         
-        List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile("resources/data/purchaserequisition.txt", new PurchaseRequisition());
+        List<PurchaseRequisition> prList = FileOperations.readObjectsFromFile(PurchaseRequisition.filePath, new PurchaseRequisition());
         PurchaseRequisition pr = null;
         try {
             pr = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);

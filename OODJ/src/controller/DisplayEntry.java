@@ -16,7 +16,7 @@ import model.*;
 public class DisplayEntry {
     
     public static void displaySupplierEntry(){
-        List<Supplier> supplierList = FileOperations.readObjectsFromFile("resources/data/supplier.txt", new Supplier());
+        List<Supplier> supplierList = FileOperations.readObjectsFromFile(Supplier.filePath, new Supplier());
         
         System.out.printf("%-17s %-20s%n", "Supplier ID   |", "Supplier Name       ");
         for(Supplier s : supplierList){
@@ -29,7 +29,7 @@ public class DisplayEntry {
     
     public static void displayItemsEntry(){
         Item item = new Item();
-        List<Item> itemList = FileOperations.readObjectsFromFile("resources/data/item.txt",item);
+        List<Item> itemList = FileOperations.readObjectsFromFile(Item.filePath,item);
         
         System.out.printf("%-17s %-25s %-25s %-20s%n", "Current Item ID |", "Current Item Name       |", "Current Item Quantity |", "Available Supplier ");
         for(Item i : itemList){
