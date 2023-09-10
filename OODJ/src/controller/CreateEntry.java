@@ -66,6 +66,7 @@ public class CreateEntry {
         
         boolean continueEnteringSupplier = true;
         while (continueEnteringSupplier) {
+            DisplayEntry.displaySupplierEntry();
             System.out.println("Enter Supplier ID (Can be multiple Supplier): ");
             String supplierID = scanner.nextLine();
             
