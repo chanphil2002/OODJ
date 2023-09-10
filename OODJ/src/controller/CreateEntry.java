@@ -96,6 +96,7 @@ public class CreateEntry {
         
         boolean continueEnteringSales = true;
         while (continueEnteringSales) {
+            DisplayEntry.displayItemsEntry();
             System.out.print("Enter Item Code (or type 'exit' to finish): ");
             String itemCode = scanner.nextLine();
             
@@ -206,6 +207,7 @@ public class CreateEntry {
         PurchaseRequisition foundPR = null;
         do {
             try {
+                DisplayEntry.displayPREntry();
                 System.out.print("Select Purchase Requisition ID: ");
                 String PRID = scanner.nextLine();
                 foundPR = (PurchaseRequisition) FileOperations.findDataByCode(PRID, prList);
