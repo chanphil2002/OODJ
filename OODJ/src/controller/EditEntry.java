@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
 import static model.Supplier.*;
@@ -98,23 +99,39 @@ public class EditEntry {
                 } else {
                     foundItem.setItemName(name);
                 }
-                System.out.print("Change Item Quantity: (or Press Enter to skip): ");
-                String quantity = scanner.nextLine();
-                if(quantity.isEmpty()){
-                    System.out.println("You didn't change this item quantity.");
-                } else {
-                    int intValue = Integer.parseInt(quantity);
-                    foundItem.setItemQuantity(intValue);
-                    System.out.println(foundItem.getItemQuantity());
-                }
-                System.out.print("Change Item Price: (or Press Enter to skip): ");
-                String price = scanner.nextLine();
-                if(price.isEmpty()){
-                    System.out.println("You didn't change this item quantity.");
-                } else {
-                    float floatValue = Float.parseFloat(price);
-                    foundItem.setPrice(floatValue);
-                }
+                do {
+                    try {
+                        success = true;
+                        System.out.print("Change Item Quantity: (or Press Enter to skip): ");
+                        String quantity = scanner.nextLine();
+                        if(quantity.isEmpty()){
+                            System.out.println("You didn't change this item quantity.");
+                        } else {
+                            int intValue = Integer.parseInt(quantity);
+                            foundItem.setItemQuantity(intValue);
+                            System.out.println(foundItem.getItemQuantity());
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid quantity. Please input the correct quantity or press enter to skip.");
+                        success = false;
+                    }
+                } while (!success);
+                do {
+                    try {
+                        success = true;
+                        System.out.print("Change Item Price: (or Press Enter to skip): ");
+                        String price = scanner.nextLine();
+                        if(price.isEmpty()){
+                            System.out.println("You didn't change this item price.");
+                        } else {
+                            float floatValue = Float.parseFloat(price);
+                            foundItem.setPrice(floatValue);
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid price. Please input the correct price or press enter to skip.");
+                        success = false;
+                    }
+                } while (!success);
                 break;
             case 2:
                 System.out.print("Are you sure you want to delete? yes/no: ");
@@ -146,7 +163,7 @@ public class EditEntry {
             }
         } while (!success);
         
-        
+        //TODO: swap these for optionpicker
         System.out.print("Enter Number: 1. Edit | 2. Delete: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -180,8 +197,16 @@ public class EditEntry {
                         System.out.print("Change Quantity Sold (or press Enter to skip): ");
                         String quantityStr = scanner.nextLine();
                         if (!quantityStr.isEmpty()) {
-                            int newQuantitySold = Integer.parseInt(quantityStr);
-                            
+                            int newQuantitySold = 0;
+                            do {
+                                try {
+                                    success = true;
+                                    newQuantitySold = Integer.parseInt(quantityStr);
+                                } catch (Exception e) {
+                                    System.out.println("Invalid quantity. Please input the correct quantity or enter to skip.");
+                                    success = false;
+                                }
+                            } while (!success);
                             // Calculate the change in item quantity
                             int oldQuantitySold = foundSales.getItemsSold().get(selected);
                             int changeInQuantity = newQuantitySold - oldQuantitySold;
@@ -263,14 +288,22 @@ public class EditEntry {
                     
                     if (selected != null) {
                         System.out.println("Change Quantity to Request (or press Enter to skip):");
-                        String quantityStr = scanner.nextLine();
-                        if (!quantityStr.isEmpty()) {
-                            int newQuantitySold = Integer.parseInt(quantityStr);
-                            selected.setQuantityRequested(newQuantitySold);
-                            int selectedIndex = foundPR.getItemsRequested().indexOf(selected);
-                            foundPR.getItemsRequested().set(selectedIndex, selected);
-                            break;
+                        do {
+                            try {
+                                success = true;
+                                String quantityStr = scanner.nextLine();
+                                if (!quantityStr.isEmpty()) {
+                                    int newQuantitySold = Integer.parseInt(quantityStr);
+                                    selected.setQuantityRequested(newQuantitySold);
+                                    int selectedIndex = foundPR.getItemsRequested().indexOf(selected);
+                                    foundPR.getItemsRequested().set(selectedIndex, selected);
+                                    break;
                         }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid quantity. Please input the correct quantity or enter to skip.");
+                                success = false;
+                            }
+                        } while (!success);        
                     } else {
                         System.out.println("Item not found.");
                         break;
