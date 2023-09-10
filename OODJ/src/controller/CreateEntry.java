@@ -235,6 +235,7 @@ public class CreateEntry {
                 System.out.println("Purchase Requisition is not approved. Cannot create Purchase Order.");
             }
         } else {
+            foundPR.setStatus(PurchaseStatus.REJECTED);
             System.out.println("Purchase Requisition is rejected.");
         } 
     }
